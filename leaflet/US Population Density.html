@@ -58,14 +58,14 @@ var map = L.map('map').setView([37.8, -96], 4);
 
 L.tileLayer('https://api.mapbox.com/styles/v1/liuvigongzuoshi/cjbf0ypqz8wp62ro6iayiivzy/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibGl1dmlnb25nenVvc2hpIiwiYSI6ImNqYmYwd24wczJyd24yeGxsMWE5bGpxaGkifQ.CVKELjW5ASK8EnQfQCbxFw', {
   maxZoom: 18,
-  attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-    '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-    'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+  // attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+  //   '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+  //   'Imagery © <a href="http://mapbox.com">Mapbox</a>',
   id: 'mapbox.light'
 }).addTo(map);
 
 
-// control that shows state info on hover
+// 显示状态信息的控件
 var info = L.control();
 
 info.onAdd = function(map) {
@@ -75,15 +75,16 @@ info.onAdd = function(map) {
 };
 
 info.update = function(props) {
-  this._div.innerHTML = '<h4>US Population Density</h4>' + (props ?
+  this._div.innerHTML = '<h4>美国人口密度</h4>' + (props ?
     '<b>' + props.name + '</b><br />' + props.density + ' people / mi<sup>2</sup>' :
-    'Hover over a state');
+    '鼠标悬停在地图上');
 };
 
 info.addTo(map);
 
 
-// get color depending on population density value
+// 根据人口密度值获得颜色
+
 function getColor(d) {
   return d > 1000 ? '#800026' :
     d > 500 ? '#BD0026' :
@@ -147,7 +148,8 @@ geojson = L.geoJson(statesData, {
   onEachFeature: onEachFeature
 }).addTo(map);
 
-map.attributionControl.addAttribution('Population data &copy; <a href="http://census.gov/">US Census Bureau</a>');
+// 追加Attribution
+// map.attributionControl.addAttribution('Population data &copy; <a href="http://census.gov/">US Census Bureau</a>');
 
 
 var legend = L.control({ position: 'bottomright' });
