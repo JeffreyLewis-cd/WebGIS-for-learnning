@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>使用自定义的MapBox</title>
+  <link rel="stylesheet" href="./lib/leaflet/leaflet.css">
+  <script src="./lib/leaflet/leaflet.js"></script>
+  <style>
+  #map-container {
+    height: 800px;
+  }
+  </style>
+</head>
+
+<body>
+  <div id="map-container"></div>
+  <script>
+  var m = L.map('map-container').setView([36.52, 120.31], 7);
+  L.tileLayer('https://api.mapbox.com/styles/v1/yqcim/cizh1ma3400ez2so5x1anhuzo/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoieXFjaW0iLCJhIjoiY2l6ZmhnZjExMDBhajJ4cGxnNGN5MnhpdCJ9.pcZtdfk8mSFboCdwqkvW6g', {
+    maxZoom: 18,
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+      '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+      'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+    id: 'mapbox.streets'
+  }).addTo(m);
+
+
+  // 做一个maker
+  var marker = L.marker([36.52, 120.31]).addTo(m);
+  // 绑定一个popup
+  // marker.bindPopup('这是个Marker').openPopup();
+  // bind event on marker
+  marker.on('click', function(e) {
+    console.log(e);
+    alert('我是Marker，被点了。');
+  })
+
+
+  // 画一个circle
+  var circle = L.circle([36.52, 120.31], {
+    color: 'green',
+    fillColor: '#f03',
+    fillOpacity: 0.5,
+    radius: 10000
+  }).addTo(m);
+  // 绑定popup
+  circle.bindPopup('我是个圆');
+
+
+  // 画一个polygon
+  var polygon = L.polygon([
+    [36, 121],
+    [37, 121],
+    [36.5, 122],
+    [36.5, 122.2]
+  ], {
+    color: 'green',
+    fillColor: '#f03',
+    fillOpacity: 0.5
+  }).addTo(m);
+  // 绑定popup
+  polygon.bindPopup('this is 个多边形');
+
+
+  // popups layers
+  var popup = L.popup()
+    .setLatLng([38, 125])
+    .setContent('俺是一个Popup图层')
+    // .openOn(m);
+    .addTo(m);
+
+
+  // 点击事件
+  // m.on('click', function(e) {
+  //   console.log(e);
+  //   alert('纬度：' + e.latlng.lat + '\n经度：' + e.latlng.lng);
+  // });
+
+
+  // 绑定点击事件并弹出弹窗
+  var mypop = L.popup();
+  m.on('click', function(e) {
+    mypop.setLatLng(e.latlng)
+      .setContent('你临幸了这个点：<br>' + e.latlng.toString())
+      .openOn(m);
+  });
+  </script>
+</body>
+
+</html>
