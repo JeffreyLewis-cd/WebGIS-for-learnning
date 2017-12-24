@@ -19,11 +19,26 @@
     <div class="row">
       <!--底部状态栏部分 -->
       <div class="col-xs-6" style="top: 50px;height: 50px;">
-        <span class="label label-success">代码实例来自博客  GIS制图乐园  http://blog.csdn.net/liyuanxiang1984                                                              </span>
+        <span class="label label-success">代码实例来                           
+        </span>
       </div>
     </div>
     <!--底部状态栏部分 -->
   </div>
+  <script type="text/javascript" src="Flat-UI/dist/js/vendor/jquery.min.js"></script>
+  <script type="text/javascript" src="Flat-UI/dist/js/flat-ui.min.js"></script>
+  <script>
+  var map = L.map("mapDiv").setView([37.75, -122.23], 10);
+  L.esri.basemapLayer("Topographic").addTo(map);
+  //初始化使计算Map控件大小
+  document.getElementById("mapDiv").style.height = document.documentElement.clientHeight - 80 + "px";
+  document.getElementById("panDiv").style.height = document.documentElement.clientHeight - 110 + "px";
+  //当网页变化是重新计算地图控件的大小
+  window.onresize = function() {
+    document.getElementById("mapDiv").style.height = document.documentElement.clientHeight - 80 + "px";
+    document.getElementById("panDiv").style.height = document.documentElement.clientHeight - 110 + "px";
+  }
+  </script>
 </body>
 
 </html>
