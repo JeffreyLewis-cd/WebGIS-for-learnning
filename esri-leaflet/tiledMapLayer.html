@@ -84,7 +84,8 @@
   var customBaselayer; //底图图层
   var layerLabels; //底图标注
   map = L.map("mapDiv").setView([23.1, 113.2], 9); //定位在广州
-  customBaselayer = L.esri.basemapLayer('chinacolor').addTo(map);
+  // 切片图层加载
+  customBaselayer = L.esri.tiledMapLayer({url: "http://cache1.arcgisonline.cn/arcgis/rest/services/ChinaOnlineStreetWarm/MapServer"}).addTo(map);
   //初始化使计算Map控件大小
   document.getElementById("mapDiv").style.height = document.documentElement.clientHeight - 53 + "px";
   // document.getElementById("panDiv").style.height = document.documentElement.clientHeight - 110 + "px";
