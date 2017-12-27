@@ -10,6 +10,20 @@
     #map-container {
       height: 800px;
     }
+    .leaflet-popup-content-wrapper{
+      text-align: center;
+      border-bottom-left-radius: 0;
+    }
+    .leaflet-popup-content {
+      width: 490px;
+      height: 250px;
+      margin: 0;
+      line-height: 1;
+    }
+    .leaflet-popup-tip-container{
+      left: 0%;
+      margin-left: -8px;
+    }
   </style>
 </head>
 
@@ -30,19 +44,22 @@
       id: 'mapbox.streets',
     }).addTo(m);
 
-    m.on('zoomend', function(e) {
-  console.log(e.target._zoom)
-})
+    
     // 做一个maker
     var marker = L.marker([36.52, 120.31]).addTo(m);
     // 绑定一个popup
     marker.bindTooltip('这是个Marker', { direction: 'left' })
-    // bind event on marker
-    marker.on('click', function (e) {
-      console.log(e);
-      alert('我是Marker，被点了。');
-    })
 
+    //自定义popup 
+    // var popup = L.popup({maxHeight: 250, maxWidth: 490, className: 'poorHouseholds'}).setContent('<p>Hello world!<br />This is a nice popup.</p>');
+ 
+    // popup.addTo(m)
+    // marker.on('click', function (e) {
+    //   console.log(e);
+    //   marker.openPopup([36.52, 120.31])
+    // })
+
+    marker.bindPopup('<p>Hello world!<br />This is a nice popup.</p>',{maxHeight: 250, maxWidth: 490, className: 'poorHouseholds', offset: [235, -3]} ).openPopup();
 
     // 画一个circle
     var circle = L.circle([36.52, 120.31], {
@@ -68,16 +85,6 @@
       }).addTo(m);
     // 绑定popup
     polygon.bindPopup('this is 个多边形');
-    //绑定toopltip
-
-
-    // popups layers
-    var popup = L.popup()
-      .setLatLng([38, 125])
-      .setContent('俺是一个Popup图层')
-      // .openOn(m);
-      .addTo(m);
-
 
     // 点击事件
     // m.on('click', function(e) {
@@ -94,17 +101,16 @@
         .openOn(m);
     });
 
-    setTimeout(function () {
-      m.setZoom(20)
-      m.flyTo([37.91082, 128.73583])
-
-      // setTimeout(() => {
-      //   console.log(11111111)
-      //   m.zoomIn(1)
-      // }, 1000);
-    }, 2000);
-
-
+    // 添加一个平移事件
+    // setTimeout(function () {
+    //   m.setZoom(20)
+    //   m.flyTo([37.91082, 128.73583])
+    // }, 2000);
+    
+    // 绑定一个监听事件
+    m.on('zoomend', function (e) {
+      console.log(e.target._zoom)
+    })
 
   </script>
 </body>
