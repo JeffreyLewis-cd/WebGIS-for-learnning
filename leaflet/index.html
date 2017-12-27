@@ -24,8 +24,6 @@
       left: 0%;
       margin-left: -8px;
     }
-
-    
   </style>
 </head>
 
@@ -60,8 +58,8 @@
     //   console.log(e);
     //   marker.openPopup([36.52, 120.31])
     // })
-var html = '<div class="layui-tab layui-tab-card"><ul class="layui-tab-title"><li class="layui-this">基本信息</li><li onclick="renderFamilyMembers(this)"data-render="0">家庭人口</li><li onclick="renderIncomeInfo(this)"data-render="0">收入信息</li><li onclick="renderWorkingCondition(this)"data-render="0">生产条件</li><li onclick="renderLivingCondition(this)"data-render="0">生活条件</li><li onclick="renderHelpPerson(this)"data-render="0">帮扶信息</li></ul><div class="layui-tab-content"><div class="layui-tab-item layui-show"><blockquote class="layui-elem-quote pk_info"id="pk_info"></blockquote></div><div class="layui-tab-item familyMembers"><table class="layui-hide"id="familyMembers"lay-filter="demo"></table></div><div class="layui-tab-item incomeInfo"><table class="layui-hide"id="incomeInfo"lay-filter="demo"></table></div><div class="layui-tab-item workingCondition"><table class="layui-hide"id="workingCondition"lay-filter="demo"></table></div><div class="layui-tab-item livingCondition"><table class="layui-hide"id="livingCondition"lay-filter="demo"></table></div><div class="layui-tab-item helpPerson"><table class="layui-hide"id="helpPerson"lay-filter="demo"></table></div></div></div>'
-    marker.bindPopup( html, {maxHeight: 250, maxWidth: 490, className: 'poorHouseholds', offset: [235, -3]} ).openPopup();
+    
+    marker.bindPopup('<p>Hello world!<br />This is a nice popup.</p>',{maxHeight: 250, maxWidth: 490, className: 'poorHouseholds', offset: [235, -3]} ).openPopup();
 
     // 画一个circle
     var circle = L.circle([36.52, 120.31], {
