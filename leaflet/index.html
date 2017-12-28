@@ -10,19 +10,23 @@
     #map-container {
       height: 800px;
     }
-    .leaflet-popup-content-wrapper{
-      text-align: center;
-      border-bottom-left-radius: 0;
+
+    .leaflet-popup-content-wrapper {
+      overflow: hidden;
+      padding: 0;
     }
+
     .leaflet-popup-content {
       width: 490px;
       height: 250px;
       margin: 0;
       line-height: 1;
+      text-align: center;
     }
-    .leaflet-popup-tip-container{
-      left: 0%;
-      margin-left: -8px;
+
+    .leaflet-popup-tip-container {
+      left: 50%;
+      margin-left: -20px;
     }
   </style>
 </head>
@@ -44,7 +48,7 @@
       id: 'mapbox.streets',
     }).addTo(m);
 
-    
+
     // 做一个maker
     var marker = L.marker([36.52, 120.31]).addTo(m);
     // 绑定一个popup
@@ -52,15 +56,18 @@
 
     //自定义popup 
     // var popup = L.popup({maxHeight: 250, maxWidth: 490, className: 'poorHouseholds'}).setContent('<p>Hello world!<br />This is a nice popup.</p>');
- 
+
     // popup.addTo(m)
     // marker.on('click', function (e) {
     //   console.log(e);
     //   marker.openPopup([36.52, 120.31])
     // })
-    
-    marker.bindPopup('<p>Hello world!<br />This is a nice popup.</p>',{maxHeight: 250, maxWidth: 490, className: 'poorHouseholds', offset: [235, -3]} ).openPopup();
 
+    var html = '<p>Hello world!<br />This is a nice popup.</p>'
+    var popup = marker.bindPopup(html, { maxHeight: 250, maxWidth: 490, className: 'poorHouseholds', offset: [0, 0] }).on('popupopen', function (params) {
+      // console.log(popup.isPopupOpen())
+      console.log(params)
+    }).openPopup();
     // 画一个circle
     var circle = L.circle([36.52, 120.31], {
       color: 'green',
@@ -106,7 +113,7 @@
     //   m.setZoom(20)
     //   m.flyTo([37.91082, 128.73583])
     // }, 2000);
-    
+
     // 绑定一个监听事件
     m.on('zoomend', function (e) {
       console.log(e.target._zoom)
