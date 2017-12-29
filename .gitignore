@@ -2,3 +2,4 @@ node_modules
 .svn
 .idea
 leaflet/test.html
+esri-leaflet/test.html

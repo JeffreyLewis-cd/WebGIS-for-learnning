@@ -16,7 +16,7 @@
       padding: 0;
     }
 
-    .leaflet-popup-content {
+    .poorHouseholds .leaflet-popup-content {
       width: 490px;
       height: 250px;
       margin: 0;
@@ -41,7 +41,7 @@
     ).setView([36.52, 120.31], 6);
     L.tileLayer('https://api.mapbox.com/styles/v1/yqcim/cizh1ma3400ez2so5x1anhuzo/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoieXFjaW0iLCJhIjoiY2l6ZmhnZjExMDBhajJ4cGxnNGN5MnhpdCJ9.pcZtdfk8mSFboCdwqkvW6g', {
       maxZoom: 17,
-      minZoom: 6,
+      // minZoom: 6,
       attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
         '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
         'Imagery © <a href="http://mapbox.com">Mapbox</a>',
@@ -67,7 +67,7 @@
     var popup = marker.bindPopup(html, { maxHeight: 250, maxWidth: 490, className: 'poorHouseholds', offset: [0, 0] }).on('popupopen', function (params) {
       // console.log(popup.isPopupOpen())
       console.log(params)
-    }).openPopup();
+    });
     // 画一个circle
     var circle = L.circle([36.52, 120.31], {
       color: 'green',
@@ -81,10 +81,13 @@
 
     // 画一个polygon
     var polygon = L.polygon([
-      [36, 121],
-      [37, 121],
-      [36.5, 122],
-      [36.5, 122.2]
+      [ // first polygon
+        [[37, -109.05], [41, -109.03], [41, -102.05], [37, -102.04]], // outer ring
+        [[37.29, -108.58], [40.71, -108.58], [40.71, -102.50], [37.29, -102.50]] // hole
+      ],
+      [ // second polygon
+        [[41, -111.03], [45, -111.04], [45, -104.05], [41, -104.05]]
+      ]
     ], {
         color: 'green',
         fillColor: '#f03',

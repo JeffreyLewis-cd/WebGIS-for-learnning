@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>使用自定义的MapBox</title>
+    <link rel="stylesheet" href="./lib/leaflet/leaflet.css">
+    <link rel="stylesheet" href="./lib/layui/css/layui.css">
+    <script src="./lib/leaflet/leaflet.js"></script>
+    <script src="./lib/layui/layui.js"></script>
+    <style>
+        #map-container {
+            height: 800px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map-container"></div>
+
+    <script>
+        var m = L.map('map-container', {
+            zoomControl: false,
+            attributionControl: false
+        }
+        ).setView([36.52, 120.31], 6);
+        L.tileLayer('https://api.mapbox.com/styles/v1/yqcim/cizh1ma3400ez2so5x1anhuzo/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoieXFjaW0iLCJhIjoiY2l6ZmhnZjExMDBhajJ4cGxnNGN5MnhpdCJ9.pcZtdfk8mSFboCdwqkvW6g', {
+            maxZoom: 17,
+            minZoom: 2
+        }).addTo(m);
+        var geojsonFeature = {
+            "type": "Feature",
+            "properties": {
+                "name": "Coors Field",
+                "amenity": "Baseball Stadium",
+                "popupContent": "This is where the Rockies play!"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [-104.99404, 39.75621]
+            }
+        };
+        var myLines = [{
+            "type": "LineString",
+            "coordinates": [[-100, 40], [-105, 45], [-110, 55]]
+        }, {
+            "type": "LineString",
+            "coordinates": [[-105, 40], [-110, 45], [-115, 55]]
+        }];
+
+        var myLayer = L.geoJSON().addTo(m);
+        myLayer.addData(geojsonFeature);
+
+    </script>
+</body>
+
+</html>
