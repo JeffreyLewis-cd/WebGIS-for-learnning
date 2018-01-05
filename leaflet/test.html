@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>使用自定义的MapBox</title>
+  <link rel="stylesheet" href="./lib/leaflet/leaflet.css">
+  <link rel="stylesheet" href="./lib/layui/css/layui.css">
+  <script src="./lib/leaflet/leaflet.js"></script>
+  <script src="./lib/layui/layui.js"></script>
+  <style>
+    #map-container {
+      height: 800px;
+    }
+
+    .leaflet-popup-content-wrapper {
+      overflow: hidden;
+      padding: 0;
+    }
+
+    .leaflet-popup-content {
+      width: 490px;
+      height: 250px;
+      margin: 0;
+      line-height: 1;
+    }
+
+    .leaflet-popup-tip-container {
+      left: 50%;
+      margin-left: -20px;
+    }
+
+    .layui-elem-quote {
+      margin-bottom: 0;
+      background-color: #fff;
+    }
+
+    .leaflet-popup-content p {
+      margin: 0;
+      padding-left: 20px;
+      line-height: 36px;
+      color: #009688;
+
+      font-weight: 600;
+      background-color: #eee;
+    }
+
+    .leaflet-container a.leaflet-popup-close-button {
+      top: 6px;
+      right: 9px;
+      color: #999;
+    }
+
+    .leaflet-container a.leaflet-popup-close-button:hover {
+      color: #009688;
+    }
+
+    /* body */
+
+    .pk_info>p+p {
+      padding: 10px 0 0;
+    }
+
+    .pk_info p span {
+      color: #CE1012;
+      font-size: 16px;
+      margin: 0 5px;
+    }
+
+    .poorHouseholds .layui-tab {
+      margin: 0;
+      border: none;
+      box-shadow: none;
+      overflow: scroll;
+      overflow-y: hidden
+    }
+
+
+
+    /*定义滚动条宽高及背景，宽高分别对应横竖滚动条的尺寸*/
+
+    .poorHouseholds .layui-tab::-webkit-scrollbar {
+      width: 14px;
+      height: 14px;
+      background-color: #f5f5f5;
+    }
+
+    /*定义滚动条的轨道，内阴影及圆角*/
+
+    .poorHouseholds .layui-tab::-webkit-scrollbar-track {
+      /* -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .2); */
+      border-radius: 10px;
+      background-color: #f5f5f5;
+    }
+
+    /*定义滑块，内阴影及圆角*/
+
+    .poorHouseholds .layui-tab::-webkit-scrollbar-thumb {
+      width: 10px;
+      height: 10px;
+      border-radius: 10px;
+      -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, .1);
+      background-color: rgb(223, 223, 223);
+    }
+  
+    /* 滚动条颜色 */
+
+    scrollb {
+      -moz-appearance: none !important;
+      background: rgb(0, 255, 0) !important;
+    }
+
+    /* 滚动条按钮颜色 */
+
+    thumb, scrollbarbutton {
+      -moz-appearance: none !important;
+      background-color: rgb(0, 0, 255) !important;
+    }
+
+    /* 鼠标悬停时按钮颜色 */
+
+    thumb:hover, scrollbarbutton:hover {
+      -moz-appearance: none !important;
+      background-color: rgb(255, 0, 0) !important;
+    }
+
+    /* 隐藏上下箭头 */
+
+    scrollbarbutton {
+      display: none !important;
+    }
+
+    /* 纵向滚动条宽度 */
+
+    scrollb[orient="vertical"] {
+      min-width: 15px !important;
+    }
+
+
+
+
+    .poorHouseholds .layui-tab .layui-tab-title {
+      width: 490px;
+      /*box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .1)*/
+    }
+
+    .poorHouseholds .layui-tab-title li {
+      padding: 0 9px;
+    }
+
+    .poorHouseholds .layui-tab .layui-tab-content {
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 0;
+      width: 600px;
+    }
+
+    .poorHouseholds .layui-tab .layui-table,
+    .layui-table-view {
+      margin: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="map-container"></div>
+
+  <script>
+    var m = L.map('map-container', {
+      zoomControl: false,
+      attributionControl: false
+    }
+    ).setView([36.52, 120.31], 6);
+    L.tileLayer('https://api.mapbox.com/styles/v1/yqcim/cizh1ma3400ez2so5x1anhuzo/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoieXFjaW0iLCJhIjoiY2l6ZmhnZjExMDBhajJ4cGxnNGN5MnhpdCJ9.pcZtdfk8mSFboCdwqkvW6g', {
+      maxZoom: 17,
+      minZoom: 2,
+      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+        '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+        'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+      id: 'mapbox.streets',
+    }).addTo(m);
+
+
+    // 做一个maker
+    var marker = L.marker([36.52, 120.31]).addTo(m);
+    // 绑定一个popup
+    marker.bindTooltip('这是个Marker', { direction: 'left' })
+
+    //自定义popup 
+    // var popup = L.popup({maxHeight: 250, maxWidth: 490, className: 'poorHouseholds'}).setContent('<p>Hello world!<br />This is a nice popup.</p>');
+
+    // popup.addTo(m)
+    // marker.on('click', function (e) {
+    //   console.log(e);
+    //   marker.openPopup([36.52, 120.31])
+    // })
+
+    var html = '<p>name</p><div class="layui-tab layui-tab-card"><ul class="layui-tab-title"><li class="layui-this">基本信息</li><li onclick="renderFamilyMembers(this)"data-render="0">家庭人口</li><li onclick="renderIncomeInfo(this)"data-render="0">收入信息</li><li onclick="renderWorkingCondition(this)"data-render="0">生产条件</li><li onclick="renderLivingCondition(this)"data-render="0">生活条件</li><li onclick="renderHelpPerson(this)"data-render="0">帮扶信息</li></ul><div class="layui-tab-content"><div class="layui-tab-item layui-show"><blockquote class="layui-elem-quote pk_info"id="pk_info"></blockquote></div><div class="layui-tab-item familyMembers"><table class="layui-hide"id="familyMembers"lay-filter="demo"></table></div><div class="layui-tab-item incomeInfo"><table class="layui-hide"id="incomeInfo"lay-filter="demo"></table></div><div class="layui-tab-item workingCondition"><table class="layui-hide"id="workingCondition"lay-filter="demo"></table></div><div class="layui-tab-item livingCondition"><table class="layui-hide"id="livingCondition"lay-filter="demo"></table></div><div class="layui-tab-item helpPerson"><table class="layui-hide"id="helpPerson"lay-filter="demo"></table></div></div></div>'
+    var popup = marker.bindPopup(html, { maxHeight: 250, maxWidth: 490, className: 'poorHouseholds', offset: [0, 0] }).on('popupopen', function (params) {
+      // console.log(popup.isPopupOpen())
+      console.log(params)
+    }).openPopup();
+
+    // 画一个circle
+    var circle = L.circle([36.52, 120.31], {
+      color: 'green',
+      fillColor: '#f03',
+      fillOpacity: 0.5,
+      radius: 10000
+    }).addTo(m);
+    // 绑定popup
+    circle.bindPopup('我是个圆');
+
+
+    // 画一个polygon
+    var polygon = L.polygon([
+      [36, 121],
+      [37, 121],
+      [36.5, 122],
+      [36.5, 122.2]
+    ], {
+        color: 'green',
+        fillColor: '#f03',
+        fillOpacity: 0.5
+      }).addTo(m);
+    // 绑定popup
+    polygon.bindPopup('this is 个多边形');
+
+    // 点击事件
+    // m.on('click', function(e) {
+    //   console.log(e);
+    //   alert('纬度：' + e.latlng.lat + '\n经度：' + e.latlng.lng);
+    // });
+
+
+    // 绑定点击事件并弹出弹窗
+    var mypop = L.popup();
+    m.on('click', function (e) {
+      mypop.setLatLng(e.latlng)
+        .setContent('你临幸了这个点：<br>' + e.latlng.toString())
+        .openOn(m);
+    });
+
+    // 添加一个平移事件
+    // setTimeout(function () {
+    //   m.setZoom(20)
+    //   m.flyTo([37.91082, 128.73583])
+    // }, 2000);
+
+    // 绑定一个监听事件
+    m.on('zoomend', function (e) {
+      console.log(e.target._zoom)
+    })
+
+  </script>
+</body>
+
+</html>
