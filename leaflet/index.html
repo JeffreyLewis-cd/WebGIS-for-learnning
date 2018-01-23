@@ -52,8 +52,7 @@
     // 做一个maker
     var marker = L.marker([36.52, 120.31]).addTo(m);
     // 绑定一个popup
-    marker.bindTooltip('这是个Marker', { direction: 'left' })
-
+    marker.bindTooltip('这是个Marker', { direction: 'left' }).openTooltip()
     //自定义popup 
     // var popup = L.popup({maxHeight: 250, maxWidth: 490, className: 'poorHouseholds'}).setContent('<p>Hello world!<br />This is a nice popup.</p>');
 
