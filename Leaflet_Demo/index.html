@@ -52,24 +52,21 @@
                     <a href="#fakelink">About Us</a>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">底图切换
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">leafelt不同底图加载方式
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a id="chinacolor" href='JavaScript:void(0)' onclick='setLayer(this)'>中国地图彩色版</a>
+                            <a id="tileLayer" href='JavaScript:void(0)' onclick='setLayer(this)'>tileLayer</a>
                         </li>
                         <li>
-                            <a id="chinagray" href='JavaScript:void(0)' onclick='setLayer(this)'>中国地图灰色版</a>
+                            <a id="tileLayer.wms" href='JavaScript:void(0)' onclick='setLayer(this)'>tileLayer.wms</a>
                         </li>
                         <li>
-                            <a id="TianDiTuVec" href='JavaScript:void(0)' onclick='setLayer(this)'>天地图矢量地图</a>
+                            <a id="imageOverlay" href='JavaScript:void(0)' onclick='setLayer(this)'>imageOverlay</a>
                         </li>
                         <li>
-                            <a id="TianDiTuSat" href='JavaScript:void(0)' onclick='setLayer(this)'>天地图影像地图</a>
-                        </li>
-                        <li>
-                            <a id="GaodeVec" href='JavaScript:void(0)' onclick='setLayer(this)'>高德地图</a>
+                            <a id="VideoOverlay" href='JavaScript:void(0)' onclick='setLayer(this)'>VideoOverlay</a>
                         </li>
                     </ul>
                 </li>
@@ -100,7 +97,8 @@
 <script src="./lib/Flat-UI-master/dist/js/vendor/jquery.min.js"></script>
 <script src="./lib/Flat-UI-master/dist/js/flat-ui.js"></script>
 <script src="./lib/leaflet/leaflet.js"></script>
-<!-- <script src="./lib/esri-leaflet-v2.1.2/dist/esri-leaflet.js"></script> -->   <!-- leafleat插件 -->
+<!-- <script src="./lib/esri-leaflet-v2.1.2/dist/esri-leaflet.js"></script> -->
+<!-- leafleat插件 -->
 <script src="./js/urlTemplate.js"></script>
 <script>
     var map = L.map("mapDiv", {
@@ -110,25 +108,33 @@
         minZoom: 0,
         attributionControl: false
     }).setView([30.6268660000, 104.1528940000], 19);//定位在成都北纬N30°37′45.58″ 东经E104°09′1.44″
-    L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png?{foo}', { foo: 'bar' }).addTo(map);
-
-    /* L.tileLayer.wms("http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi", {
-            layers: 'nexrad-n0r-900913',
-            format: 'image/png',
-            transparent: true,
-            attribution: "Weather data © 2012 IEM Nexrad"
-        }).addTo(map); */
-
-    /* var imageUrl = 'http://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg',
-        imageBounds = [[40.712216, -74.22655], [40.773941, -74.12544]];
-    L.imageOverlay(imageUrl, imageBounds).addTo(map); */
-
-    /* var videoUrl = 'https://www.mapbox.com/bites/00188/patricia_nasa.webm',
-        videoBounds = [[32, -130], [13, -100]];
-    L.VideoOverlay(videoUrl, videoBounds).addTo(map); */
-
-    var setLayer = function(ele) {
-        
+    var Baselayer = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png?{foo}', { foo: 'bar' }).addTo(map);
+    console.log(Baselayer)
+    
+    var setLayer = function (ele) {
+        map.removeLayer(Baselayer)
+        console.log(ele.id)
+        if (ele.id == "tileLayer") {
+            Baselayer = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png?{foo}', { foo: 'bar' }).addTo(map);
+        } else if (ele.id == "tileLayer.wms") {
+            Baselayer = L.tileLayer.wms("http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi", {
+                layers: 'nexrad-n0r-900913',
+                format: 'image/png',
+                transparent: true,
+                attribution: "Weather data © 2012 IEM Nexrad"
+            }).addTo(map);
+            console.log(Baselayer)
+        } else if (ele.id == "imageOverlay") {
+            var imageUrl = 'http://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg',
+                imageBounds = [[40.712216, -74.22655], [40.773941, -74.12544]];
+            Baselayer = L.imageOverlay(imageUrl, imageBounds).addTo(map)
+            console.log(Baselayer)
+        } else if (ele.id == "VideoOverlay") {
+            var videoUrl = 'https://www.mapbox.com/bites/00188/patricia_nasa.webm',
+                videoBounds = [[32, -130], [13, -100]];
+            Baselayer = L.VideoOverlay(videoUrl, videoBounds).addTo(map);
+            console.log(Baselayer)
+        }
     }
 </script>
 
