@@ -19,4 +19,7 @@
 <br><br> `每个功能，先简单介绍是做什么，然后用逻辑图把实现的逻辑讲清楚，再看代码（可以不在PPT里面，看IDE里就行），最后总结一下这个功能有哪些用途（你认为的）`
 ---
 #### demo用到的库
-* Flat-UI [github地址](https://github.com/designmodo/Flat-UI/)
+* Flat-UI [ Flat UI is based on Bootstrap, a comfortable, responsive, and functional framework that simplifies the development of websites.(Flat-UI是基于Bootstrap的一个扁平化风格web开发框架)](https://github.com/designmodo/Flat-UI/)
+* leaflet [an open-source JavaScript library
+for mobile-friendly interactive maps.(Leaflet 是一个为建设交互性好适用于移动设备地图，而开发的现代的、开源的 JavaScript 库)](http://leafletjs.com/reference-1.3.0.html)
+* Esri Leaflet [A lightweight set of tools for using ArcGIS services with Leaflet.(一个轻量级的工具,基于leaflet利用ArcGIS服务)](http://esri.github.io/esri-leaflet/)
