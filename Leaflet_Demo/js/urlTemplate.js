@@ -1,8 +1,8 @@
  var urlTemplate = {
     //自定义中国灰色地图（ArcGIS Server切片服务，来自arcgisonline.cn）
-    chinagray: "http://cache1.arcgisonline.cn/ArcGIS/rest/services/ChinaOnlineStreetGray/MapServer/tile/{z}/{y}/{x}",
+     chinagray: "http://cache1.arcgisonline.cn/arcgis/rest/services/ChinaOnlineCommunity_Mobile/MapServer",
     //自定义中国彩色地图（ArcGIS Server切片服务，来自arcgisonline.cn）
-    chinacolor: "http://cache1.arcgisonline.cn/ArcGIS/rest/services/ChinaOnlineStreetWarm/MapServer/tile/{z}/{y}/{x}",
+     chinacolor: "http://cache1.arcgisonline.cn/arcgis/rest/services/ChinaOnlineStreetWarm/MapServer",
     //天地图矢量地图服务
     TianDiTuVec: "http://t{s}.tianditu.cn/DataServer?T=vec_w&X={x}&Y={y}&L={z}",
     //天地图矢量标注服务
