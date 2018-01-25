@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>底图加载（底图类型、切换）</title>
+    <title>esri-leaflet底图加载（底图类型、切换）</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="./lib/Flat-UI-master/dist/css/vendor/bootstrap/css/bootstrap.min.css"
     />
@@ -13,7 +13,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-inverse navbar-embossed" role="navigation" style="margin-bottom: 0; border-radius: 0;">
+    <nav class="navbar navbar-inverse navbar-embossed" role="navigation" style="margin-bottom: 0; border-radius: 0; z-index:2">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-01">
                 <span class="sr-only">Toggle navigation</span>
@@ -52,21 +52,18 @@
                     <a href="#fakelink">About Us</a>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">leafelt不同底图加载方式
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">地图切换
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a id="chinagray" href='JavaScript:void(0)' onclick='setLayer(this)'>leafleat加载彩色世界地图</a>
+                            <a id="mapbox_Image" href='JavaScript:void(0)' onclick='setLayer([urlTemplate.SYS_CQMap_IMG_MAPSERVER_PATH,urlTemplate.SYS_CQMap_IMG_LABEL_MAPSERVER_PATH], 18)'>影像地图</a>
                         </li>
                         <li>
-                            <a id="chinacolor" href='JavaScript:void(0)' onclick='setLayer(this)'>leafleat加载彩色矢量世界地图</a>
+                            <a id="mapbox_Vector" href='JavaScript:void(0)' onclick='setLayer([urlTemplate.SYS_CQMap_VEC_MAPSERVER_PATH], 18)'>矢量地图</a>
                         </li>
                         <li>
-                            <a id="imageOverlay" href='JavaScript:void(0)' onclick='setLayer(this)'>imageOverlay</a>
-                        </li>
-                        <li>
-                            <a id="VideoOverlay" href='JavaScript:void(0)' onclick='setLayer(this)'>VideoOverlay</a>
+                            <a id="mapbox_Vector" href='JavaScript:void(0)' onclick='setLayer([urlTemplate.SYS_CQMap_DEM_MAPSERVER_PATH], 16)'>地貌地图</a>
                         </li>
                     </ul>
                 </li>
@@ -88,7 +85,7 @@
     </nav>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-xs-12" id="mapDiv" style="height:900px;"></div>
+            <div class="col-xs-12" id="mapDiv" style="position: absolute;top: 53px;bottom: 0;z-index:1"></div>
             <!-- 地图面板 -->
             <!--底部状态栏部分 -->
         </div>
@@ -97,43 +94,49 @@
 <script src="./lib/Flat-UI-master/dist/js/vendor/jquery.min.js"></script>
 <script src="./lib/Flat-UI-master/dist/js/flat-ui.js"></script>
 <script src="./lib/leaflet/leaflet.js"></script>
-<script src="./lib/esri-leaflet-v2.1.2/dist/esri-leaflet.js"></script><!-- leafleat插件 -->
+<script src="./lib/esri-leaflet-v2.1.2/dist/esri-leaflet.js"></script>
+<!-- leafleat插件 -->
 <script src="./js/urlTemplate.js"></script>
 <script>
-    var map = L.map("mapDiv", {
-        crs: L.CRS.EPSG3857, //要使用的坐标参考系统，默认的坐标参考系
-        // crs: L.CRS.EPSG4326, //国内的坐标参考系
-        zoomControl: true,
-        minZoom: 1,
+    let oMap = null;
+    let oLayer = [];
+    oMap = L.map('mapDiv', {
+        crs: L.CRS.EPSG4326,
+        zoomControl: false,
+        minZoom: 7,
         attributionControl: false
-    }).setView([30.6268660000, 104.1528940000], 18);//定位在成都北纬N30°37′45.58″ 东经E104°09′1.44″
-    var Baselayer =   L.tileLayer('https://api.mapbox.com/styles/v1/yqcim/cizh1ma3400ez2so5x1anhuzo/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoieXFjaW0iLCJhIjoiY2l6ZmhnZjExMDBhajJ4cGxnNGN5MnhpdCJ9.pcZtdfk8mSFboCdwqkvW6g', {
-            maxZoom: 17,
-            minZoom: 2
-        }).addTo(map);
-        
-    console.log(Baselayer)
-    
-    var setLayer = function (ele) {
-        map.removeLayer(Baselayer)
-        console.log(ele.id)
-        if (ele.id == "chinagray") {
-            Baselayer = L.tileLayer('https://api.mapbox.com/styles/v1/liuvigongzuoshi/cjbf0ypqz8wp62ro6iayiivzy/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibGl1dmlnb25nenVvc2hpIiwiYSI6ImNqYmYwd24wczJyd24yeGxsMWE5bGpxaGkifQ.CVKELjW5ASK8EnQfQCbxFw', {
-                maxZoom: 18,
-            }).addTo(map);
-        } else if (ele.id == "chinacolor") {
-            Baselayer = L.esri.basemapLayer.wms("http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi", {
-                layers: 'nexrad-n0r-900913',
-                format: 'image/png',
-                transparent: true,
-                attribution: "Weather data © 2012 IEM Nexrad"
-            }).addTo(map);
-            console.log(Baselayer)
-        } else if (ele.id == "imageOverlay") {
-            
-        } else if (ele.id == "VideoOverlay") {
-          
+    }).setView([29.59, 106.59], 12); //定位在重庆
+
+    //const legend = L.control({
+    //     position: 'bottomright'
+    // });
+    oLayer.push(L.esri.tiledMapLayer({
+        url: urlTemplate.SYS_CQMap_IMG_MAPSERVER_PATH,
+        maxZoom: 17,
+        minZoom: 0,
+        useCors: false,
+    }).addTo(oMap));
+
+    oLayer.push(L.esri.tiledMapLayer({
+        url: urlTemplate.SYS_CQMap_IMG_LABEL_MAPSERVER_PATH,
+        maxZoom: 17,
+        minZoom: 0,
+        useCors: false,
+    }).addTo(oMap));
+
+    console.log(oLayer)
+    const setLayer = (layerUrls, maxZoom) => {
+        for (let i = 0; i < oLayer.length; i++) {
+            oMap.removeLayer(oLayer[i])
         }
+        oLayer = []
+        layerUrls.map((item) => {
+            oLayer.push(L.esri.tiledMapLayer({
+                url: item,
+                useCors: false,
+                maxZoom: maxZoom,
+            }).addTo(oMap));
+        })
     }
 </script>
 

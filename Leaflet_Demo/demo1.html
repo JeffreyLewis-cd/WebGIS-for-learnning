@@ -91,8 +91,6 @@
 <script src="./lib/Flat-UI-master/dist/js/vendor/jquery.min.js"></script>
 <script src="./lib/Flat-UI-master/dist/js/flat-ui.js"></script>
 <script src="./lib/leaflet/leaflet.js"></script>
-<script src="./lib/esri-leaflet-v2.1.2/dist/esri-leaflet.js"></script>
-<!-- leafleat插件 -->
 <script src="./js/urlTemplate.js"></script>
 <script>
     const map = L.map("mapDiv", {
@@ -109,7 +107,7 @@
 
     console.log(Baselayer)
 
-    function setLayer(ele) {
+    const setLayer = (ele) => {
         map.removeLayer(Baselayer)
 
         console.log(ele.id)
