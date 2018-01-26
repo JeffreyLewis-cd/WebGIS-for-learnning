@@ -101,8 +101,8 @@
         attributionControl: true,
     }).setView([30.6268660000, 104.1528940000], 18);//定位在成都北纬N30°37′45.58″ 东经E104°09′1.44″
     let Baselayer = L.tileLayer(urlTemplate.mapbox_Image, {
-        maxZoom: 17,
-        minZoom: 2,
+        maxZoom: 17, //最大视图
+        minZoom: 2, //最小视图
         attribution: 'liuvigongzuoshi@foxmail.com  &copy; <a href="https://github.com/liuvigongzuoshi/WebGIS-for-learnning/tree/master/Leaflet_Demo">WebGIS-for-learnning</a>'
     }).addTo(map);
 
@@ -119,7 +119,7 @@
         } else if (ele == "mapbox_Vector") {
             Baselayer = L.tileLayer(urlTemplate.mapbox_Vector, {
                 maxZoom: 17,
-                // minZoom: 2
+                minZoom: 1
             }).addTo(map);
             console.log(Baselayer)
         }
