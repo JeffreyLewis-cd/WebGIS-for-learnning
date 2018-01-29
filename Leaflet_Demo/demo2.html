@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>leaflet地图操作（缩放、平移、全图、定位/书签、动画）</title>
+    <title>leaflet地图操作（缩放、平移、定位/书签、动画）</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="./lib/Flat-UI-master/dist/css/vendor/bootstrap/css/bootstrap.min.css"
     />
@@ -130,21 +130,24 @@
 
     // 设置一个定时器当作事件触发源
     setTimeout(function () {
-        // map.setZoom(10)  //设置地图缩放到
+        map.setZoom(10, {
+            animate: false
+        })  //设置地图缩放到
         // map.zoomIn() //图层往里进一个图层，放大
         // map.zoomOut()  //图层往里进一个图层，缩小
 
-        // map.panTo([37.91082, 126.73583],{
-        //     animate: true
-        // }) //地图平移，默认是带动画的
+        map.panTo([37.91082, 126.73583],{
+            animate: true
+        }) //地图平移，默认是带动画的
 
         //   map.flyTo([37.91082, 128.73583]) // 点到点的抛物线动画，平移加缩放动画
+        // console.log(polygon.getBounds())
+        // map.flyToBounds(polygon.getBounds()); //飞到一个区域上面，自动判断区域块的大小，合适缩放图层
 
-        // map.fitBounds(polygon.getBounds()); //飞到一个区域上面，
-
-        map.fitBounds(polygon.getBounds()); //平移到一个区域上面，
+        // map.fitBounds(polygon.getBounds()); //平移到一个区域上面，自动判断区域块的大小，合适缩放图层
 
     }, 2000);
+
 
     // 绑定一个监听事件
     map.on('zoomend', function (e) {
@@ -158,6 +161,7 @@
             fillColor: '#f03',
             fillOpacity: 0.5
         }).addTo(map);
+
 </script>
 
 </html>
