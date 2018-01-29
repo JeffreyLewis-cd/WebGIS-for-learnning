@@ -155,6 +155,63 @@ let polygon = L.polygon(
 
 ### 图层管理（加载、移除、调整顺序）： [Demo 3 ](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo3.html)
 * 库引用
+```
+<link rel="stylesheet" type="text/css"  href="./lib/Flat-UI-master/dist/css/vendor/bootstrap/css/bootstrap.min.css"
+    />
+<link rel="stylesheet" href="./lib/Flat-UI-master/dist/css/flat-ui.min.css">
+<link rel="stylesheet" href="./lib/leaflet/leaflet.css">
+```
+```
+<script src="./lib/Flat-UI-master/dist/js/vendor/jquery.min.js"></script>
+<script src="./lib/Flat-UI-master/dist/js/flat-ui.js"></script>
+<script src="./lib/leaflet/leaflet.js"></script>
+<script src="./lib/esri-leaflet-v2.1.2/dist/esri-leaflet.js"></script> <!-- esri-leafleat插件 -->
+<script src="./js/urlTemplate.js"></script>
+```
+* 使用esri-leaflet插件加载ArcGIS底图服务
+```
+let oMap = null;
+    let oLayer = [];
+
+    oMap = L.map('mapDiv', {
+        crs: L.CRS.EPSG4326,
+        zoomControl: false,
+        minZoom: 7,
+        attributionControl: false
+    }).setView([29.59, 106.59], 12); //定位在重庆
+    
+    oLayer.push(L.esri.tiledMapLayer({
+        url: urlTemplate.SYS_CQMap_IMG_MAPSERVER_PATH,
+        maxZoom: 17,
+        minZoom: 0,
+        useCors: false, //是否浏览器在跨域的情况下使用GET请求。
+    }).addTo(oMap)); //加载第一个底图
+
+    oLayer.push(L.esri.tiledMapLayer({
+        url: urlTemplate.SYS_CQMap_IMG_LABEL_MAPSERVER_PATH,
+        maxZoom: 17,
+        minZoom: 0,
+        useCors: false,
+    }).addTo(oMap));  //加载第二个底图
+```
+* 切换底图(移除及加载)
+
+```
+const setLayer = (layerUrls, maxZoom) => {
+        for (let i = 0; i < oLayer.length; i++) {
+            oMap.removeLayer(oLayer[i]) //将图层在地图上移除
+        }
+        oLayer = [] //制空数组
+        layerUrls.map((item) => {
+            oLayer.push(L.esri.tiledMapLayer({
+                url: item,
+                useCors: false,
+                maxZoom: maxZoom, // 设置最大放大图层值
+            }).addTo(oMap));
+        })
+    }
+```
+>  不同的底图可能图层数不一样，就可能造成浏览器去请求不存在的图层，以及给用户展示出空白区域的不好体验，所以切换图层时候应注意设置最大及最小缩放值。
 
 ### 写在后面 
 #### 国内常用地图服务资源加载插件

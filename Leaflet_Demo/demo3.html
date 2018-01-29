@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>图层管理（加载、移除、调整顺序）：</title>
+    <title>esri-leaflet底图加载,图层管理（加载、移除、调整顺序）</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="./lib/Flat-UI-master/dist/css/vendor/bootstrap/css/bootstrap.min.css"
     />
@@ -52,15 +52,18 @@
                     <a href="#fakelink">About Us</a>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">leafelt不同底图加载方式
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">地图切换
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a id="mapbox_Image" href='JavaScript:void(0)' onclick='setLayer("mapbox_Image")'>leafleat加载彩色影像世界地图</a>
+                            <a id="mapbox_Image" href='JavaScript:void(0)' onclick='setLayer([urlTemplate.SYS_CQMap_IMG_MAPSERVER_PATH,urlTemplate.SYS_CQMap_IMG_LABEL_MAPSERVER_PATH], 18)'>影像地图加标注</a>
                         </li>
                         <li>
-                            <a id="mapbox_Vector" href='JavaScript:void(0)' onclick='setLayer("mapbox_Vector")'>leafleat加载彩色矢量世界地图</a>
+                            <a id="mapbox_Vector" href='JavaScript:void(0)' onclick='setLayer([urlTemplate.SYS_CQMap_VEC_MAPSERVER_PATH], 18)'>矢量地图</a>
+                        </li>
+                        <li>
+                            <a id="mapbox_Vector" href='JavaScript:void(0)' onclick='setLayer([urlTemplate.SYS_CQMap_DEM_MAPSERVER_PATH], 16)'>地貌地图</a>
                         </li>
                     </ul>
                 </li>
@@ -91,91 +94,47 @@
 <script src="./lib/Flat-UI-master/dist/js/vendor/jquery.min.js"></script>
 <script src="./lib/Flat-UI-master/dist/js/flat-ui.js"></script>
 <script src="./lib/leaflet/leaflet.js"></script>
+<script src="./lib/esri-leaflet-v2.1.2/dist/esri-leaflet.js"></script> <!-- esri-leafleat插件 -->
 <script src="./js/urlTemplate.js"></script>
 <script>
-    const map = L.map("mapDiv", {
-        crs: L.CRS.EPSG3857, //要使用的坐标参考系统，默认的坐标参考系
-        // crs: L.CRS.EPSG4326, //国内的坐标参考系
-        zoomControl: true,
-        // minZoom: 1,
-        attributionControl: true,
-    }).setView([36.52, 120.31], 8);//定位在成都北纬N30°37′45.58″ 东经E104°09′1.44″
-    let Baselayer = L.tileLayer(urlTemplate.mapbox_Image, {
+    let oMap = null;
+    let oLayer = [];
+
+    oMap = L.map('mapDiv', {
+        crs: L.CRS.EPSG4326,
+        zoomControl: false,
+        minZoom: 7,
+        attributionControl: false
+    }).setView([29.59, 106.59], 12); //定位在重庆
+
+    oLayer.push(L.esri.tiledMapLayer({
+        url: urlTemplate.SYS_CQMap_IMG_MAPSERVER_PATH,
         maxZoom: 17,
-        minZoom: 2,
-        attribution: 'liuvigongzuoshi@foxmail.com  &copy; <a href="https://github.com/liuvigongzuoshi/WebGIS-for-learnning/tree/master/Leaflet_Demo">WebGIS-for-learnning</a>'
-    }).addTo(map);
+        minZoom: 0,
+        useCors: false, //是否浏览器在跨域的情况下使用GET请求。
+    }).addTo(oMap));
 
-    console.log(Baselayer)
+    oLayer.push(L.esri.tiledMapLayer({
+        url: urlTemplate.SYS_CQMap_IMG_LABEL_MAPSERVER_PATH,
+        maxZoom: 17,
+        minZoom: 0,
+        useCors: false,
+    }).addTo(oMap));
 
-    const setLayer = (ele) => {
-        map.removeLayer(Baselayer)
-
-        if (ele == "mapbox_Image") {
-            Baselayer = L.tileLayer(urlTemplate.mapbox_Image, {
-                maxZoom: 17,
-                minZoom: 2
-            }).addTo(map);
-        } else if (ele == "mapbox_Vector") {
-            Baselayer = L.tileLayer(urlTemplate.mapbox_Vector, {
-                maxZoom: 17,
-                // minZoom: 2
-            }).addTo(map);
-            console.log(Baselayer)
+    console.log(oLayer)
+    const setLayer = (layerUrls, maxZoom) => {
+        for (let i = 0; i < oLayer.length; i++) {
+            oMap.removeLayer(oLayer[i]) //将图层在地图上移除
         }
+        oLayer = [] //制空数组
+        layerUrls.map((item) => {
+            oLayer.push(L.esri.tiledMapLayer({
+                url: item,
+                useCors: false,
+                maxZoom: maxZoom,
+            }).addTo(oMap));
+        })
     }
-
-    // 做一个maker
-    let marker = L.marker([36.52, 120.31]).addTo(map);
-    // maker上绑定一个Tooltip
-    marker.bindTooltip('我是个Marker', { direction: 'left' }).openTooltip()
-    // 画一个circle
-    let circle = L.circle([36.52, 120.31], {
-        color: 'green',
-        fillColor: '#f03',
-        fillOpacity: 0.5,
-        radius: 10000
-    }).addTo(map);
-
-
-    // 画一个polygon
-    var polygon = L.polygon([
-        [ // first polygon
-            [[37, -109.05], [41, -109.03], [41, -102.05], [37, -102.04]], // outer ring
-            [[37.29, -108.58], [40.71, -108.58], [40.71, -102.50], [37.29, -102.50]] // hole
-        ],
-        [ // second polygon
-            [[41, -111.03], [45, -111.04], [45, -104.05], [41, -104.05]]
-        ]
-    ], {
-            color: 'green',
-            fillColor: '#f03',
-            fillOpacity: 0.5
-        }).addTo(map);
-    // 绑定popup
-    polygon.bindPopup('this is 个多边形');
-
-
-
-    // 绑定点击事件并弹出弹窗
-    var mypop = L.popup();
-    map.on('click', function (e) {
-        mypop.setLatLng(e.latlng)
-            .setContent('你临幸了这个点：<br>' + e.latlng.toString())
-            .openOn(map);
-    });
-
-
-    // 添加一个平移事件
-    // setTimeout(function () {
-    //   m.setZoom(20)
-    //   m.flyTo([37.91082, 128.73583])
-    // }, 2000);
-
-    // 绑定一个监听事件
-    map.on('zoomend', function (e) {
-        console.log(e.target._zoom)
-    })
 </script>
 
 </html>
