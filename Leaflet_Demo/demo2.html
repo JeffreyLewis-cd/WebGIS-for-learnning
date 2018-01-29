@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>leaflet底图加载（marker、tooltip、popup）</title>
+    <title>leaflet地图操作（缩放、平移、全图、定位/书签、动画）</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="./lib/Flat-UI-master/dist/css/vendor/bootstrap/css/bootstrap.min.css"
     />
@@ -94,12 +94,12 @@
 <script src="./js/urlTemplate.js"></script>
 <script>
     const map = L.map("mapDiv", {
-        crs: L.CRS.EPSG3857, //要使用的坐标参考系统，默认的坐标参考系
-        // crs: L.CRS.EPSG4326, //国内的坐标参考系
+        crs: L.CRS.EPSG3857,
         zoomControl: true,
-        // minZoom: 1,
+        minZoom: 1,
         attributionControl: true,
-    }).setView([36.52, 120.31], 6);//定位在成都北纬N30°37′45.58″ 东经E104°09′1.44″
+        zoomAnimation: true //缩放是否带动画
+    }).setView([36.52, 120.31], 8);//定位在成都北纬N30°37′45.58″ 东经E104°09′1.44″
     let Baselayer = L.tileLayer(urlTemplate.mapbox_Image, {
         maxZoom: 17,
         minZoom: 2,
@@ -119,63 +119,45 @@
         } else if (ele == "mapbox_Vector") {
             Baselayer = L.tileLayer(urlTemplate.mapbox_Vector, {
                 maxZoom: 17,
-                // minZoom: 2
+                minZoom: 2
             }).addTo(map);
             console.log(Baselayer)
         }
     }
 
-    // 做一个maker
+    // 做一个maker表示定位在这里
     let marker = L.marker([36.52, 120.31]).addTo(map);
-    // maker上绑定一个Tooltip
-    marker.bindTooltip('我是个Marker', { direction: 'left' }).openTooltip()
-    // 画一个circle
-    let circle = L.circle([36.52, 120.31], {
-        color: 'green',
-        fillColor: '#f03',
-        fillOpacity: 0.5,
-        radius: 10000
-    }).addTo(map);
 
+    // 设置一个定时器当作事件触发源
+    setTimeout(function () {
+        // map.setZoom(10)  //设置地图缩放到
+        // map.zoomIn() //图层往里进一个图层，放大
+        // map.zoomOut()  //图层往里进一个图层，缩小
 
-    // 画一个polygon
-    var polygon = L.polygon([
-        [ // first polygon
-            [[37, -109.05], [41, -109.03], [41, -102.05], [37, -102.04]], // outer ring
-            [[37.29, -108.58], [40.71, -108.58], [40.71, -102.50], [37.29, -102.50]] // hole
-        ],
-        [ // second polygon
-            [[41, -111.03], [45, -111.04], [45, -104.05], [41, -104.05]]
-        ]
-    ], {
-            color: 'green',
-            fillColor: '#f03',
-            fillOpacity: 0.5
-        }).addTo(map);
-    // 绑定popup
-    polygon.bindPopup('this is 个多边形');
+        // map.panTo([37.91082, 126.73583],{
+        //     animate: true
+        // }) //地图平移，默认是带动画的
 
+        //   map.flyTo([37.91082, 128.73583]) // 点到点的抛物线动画，平移加缩放动画
 
+        // map.fitBounds(polygon.getBounds()); //飞到一个区域上面，
 
-    // 绑定点击事件并弹出弹窗
-    var mypop = L.popup();
-    map.on('click', function (e) {
-        mypop.setLatLng(e.latlng)
-            .setContent('你临幸了这个点：<br>' + e.latlng.toString())
-            .openOn(map);
-    });
+        map.fitBounds(polygon.getBounds()); //平移到一个区域上面，
 
-
-    // 添加一个平移事件
-    // setTimeout(function () {
-    //   m.setZoom(20)
-    //   m.flyTo([37.91082, 128.73583])
-    // }, 2000);
+    }, 2000);
 
     // 绑定一个监听事件
     map.on('zoomend', function (e) {
         console.log(e.target._zoom)
     })
+
+
+    let polygon = L.polygon([[37, -109.05], [41, -109.03], [41, -102.05], [37, -102.04]],
+        [40.774, -74.125], {
+            color: 'green',
+            fillColor: '#f03',
+            fillOpacity: 0.5
+        }).addTo(map);
 </script>
 
 </html>

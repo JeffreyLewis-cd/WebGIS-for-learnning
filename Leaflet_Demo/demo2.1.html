@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>leaflet底图加载（底图类型、切换）</title>
+    <title>leaflet底图加载（marker、tooltip、popup）</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="./lib/Flat-UI-master/dist/css/vendor/bootstrap/css/bootstrap.min.css"
     />
@@ -99,10 +99,10 @@
         zoomControl: true,
         // minZoom: 1,
         attributionControl: true,
-    }).setView([30.6268660000, 104.1528940000], 18);//定位在成都北纬N30°37′45.58″ 东经E104°09′1.44″
+    }).setView([36.52, 120.31], 8);//定位在成都北纬N30°37′45.58″ 东经E104°09′1.44″
     let Baselayer = L.tileLayer(urlTemplate.mapbox_Image, {
-        maxZoom: 17, //最大视图
-        minZoom: 2, //最小视图
+        maxZoom: 17,
+        minZoom: 2,
         attribution: 'liuvigongzuoshi@foxmail.com  &copy; <a href="https://github.com/liuvigongzuoshi/WebGIS-for-learnning/tree/master/Leaflet_Demo">WebGIS-for-learnning</a>'
     }).addTo(map);
 
@@ -119,11 +119,63 @@
         } else if (ele == "mapbox_Vector") {
             Baselayer = L.tileLayer(urlTemplate.mapbox_Vector, {
                 maxZoom: 17,
-                minZoom: 1
+                // minZoom: 2
             }).addTo(map);
             console.log(Baselayer)
         }
     }
+
+    // 做一个maker
+    let marker = L.marker([36.52, 120.31]).addTo(map);
+    // maker上绑定一个Tooltip
+    marker.bindTooltip('我是个Marker', { direction: 'left' }).openTooltip()
+    // 画一个circle
+    let circle = L.circle([36.52, 120.31], {
+        color: 'green',
+        fillColor: '#f03',
+        fillOpacity: 0.5,
+        radius: 10000
+    }).addTo(map);
+
+
+    // 画一个polygon
+    var polygon = L.polygon([
+        [ // first polygon
+            [[37, -109.05], [41, -109.03], [41, -102.05], [37, -102.04]], // outer ring
+            [[37.29, -108.58], [40.71, -108.58], [40.71, -102.50], [37.29, -102.50]] // hole
+        ],
+        [ // second polygon
+            [[41, -111.03], [45, -111.04], [45, -104.05], [41, -104.05]]
+        ]
+    ], {
+            color: 'green',
+            fillColor: '#f03',
+            fillOpacity: 0.5
+        }).addTo(map);
+    // 绑定popup
+    polygon.bindPopup('this is 个多边形');
+
+
+
+    // 绑定点击事件并弹出弹窗
+    var mypop = L.popup();
+    map.on('click', function (e) {
+        mypop.setLatLng(e.latlng)
+            .setContent('你临幸了这个点：<br>' + e.latlng.toString())
+            .openOn(map);
+    });
+
+
+    // 添加一个平移事件
+    // setTimeout(function () {
+    //   m.setZoom(20)
+    //   m.flyTo([37.91082, 128.73583])
+    // }, 2000);
+
+    // 绑定一个监听事件
+    map.on('zoomend', function (e) {
+        console.log(e.target._zoom)
+    })
 </script>
 
 </html>
