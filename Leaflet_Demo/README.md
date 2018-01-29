@@ -1,11 +1,11 @@
-### WebGIS-for-learnning
+### 入门Leaflet之小Demo
 ---
-> GIS开发基础（以Leaflet为例）
+> 写在前面 ---- WebGIS开发基础（以Leaflet为例）
 > 1. GIS基本概念：GIS、Map、Layer、Feature、Geometry、Symbol、Data（Point、Polyline、Polygon）、Renderer、Scale、Project、Coordinates；
 > 2. GIS开发概述：架构模式、常用平台和SDK、二维三维
 > 3. 使用Leaflet开发常用功能
 >   * 地图加载（底图类型、切换）：
->   * 地图操作（缩放、平移、全图、定位/书签、动画）：
+>   * 地图操作（缩放、平移、定位/书签、动画）：
 >   * 图层管理（加载、移除、调整顺序）：
 >   *  要素标绘（点/聚簇、线、面，符号化/静态动态）：
 >   *  属性标注（字段可选、样式定制）：
@@ -24,8 +24,8 @@
 for mobile-friendly interactive maps.](http://leafletjs.com/reference-1.3.0.html)Leaflet 是一个为建设交互性好适用于移动设备地图，而开发的现代的、开源的 JavaScript 库。
 * Esri Leaflet [A lightweight set of tools for using ArcGIS services with Leaflet.](http://esri.github.io/esri-leaflet/)一个轻量级的工具,基于leaflet利用ArcGIS服务。
 ---
-### 地图加载（底图类型、切换） [Demo 1 ](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/tree/master/Leaflet_Demo)
-* 库应用
+### 地图加载（底图类型、切换） [Demo 1 ](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo1.html)
+* 库引用
 ```
 <link rel="stylesheet" type="text/css" href="./lib/Flat-UI-master/dist/css/vendor/bootstrap/css/bootstrap.min.css"
     /> 
@@ -48,34 +48,120 @@ const map = L.map("mapDiv", {
         attributionControl: true,
     }).setView([30.6268660000, 104.1528940000], 18);//定位在成都北纬N30°37′45.58″ 东经E104°09′1.44″
     let Baselayer = L.tileLayer(urlTemplate.mapbox_Image, {
-        maxZoom: 17,
-        minZoom: 2,
+       maxZoom: 17, //最大视图
+        minZoom: 2, //最小视图
         attribution: 'liuvigongzuoshi@foxmail.com  &copy; <a href="https://github.com/liuvigongzuoshi/WebGIS-for-learnning/tree/master/Leaflet_Demo">WebGIS-for-learnning</a>'
     }).addTo(map);
 
-    console.log(Baselayer)
-
-    const setLayer = (ele) => {
-        map.removeLayer(Baselayer)
-
-        if (ele == "mapbox_Image") {
-            Baselayer = L.tileLayer(urlTemplate.mapbox_Image, {
-                maxZoom: 17,
-                minZoom: 2
-            }).addTo(map);
-        } else if (ele == "mapbox_Vector") {
-            Baselayer = L.tileLayer(urlTemplate.mapbox_Vector, {
-                maxZoom: 17,
-                // minZoom: 2
-            }).addTo(map);
-            console.log(Baselayer)
-        }
+const setLayer = (ele) => {
+    map.removeLayer(Baselayer)
+    if (ele == "mapbox_Image") {
+        Baselayer = L.tileLayer(urlTemplate.mapbox_Image, {
+            maxZoom: 17,
+            minZoom: 2
+        }).addTo(map);
+    } else if (ele == "mapbox_Vector") {
+        Baselayer = L.tileLayer(urlTemplate.mapbox_Vector, {
+            maxZoom: 17,
+            // minZoom: 2
+        }).addTo(map);
+        console.log(Baselayer)
     }
+}
 ```
 
-#### 写在后面----国内常用地图服务资源加载插件
+### 地图操作（缩放、平移、定位/书签、动画） [Demo 2 ](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo2.html)
+* 库引用  如上  Demo 1
+
+* 设置地图缩放到指定图层
+
+```
+// 设置一个定时器当作事件触发源
+setTimeout(function () {
+    map.setZoom(10, {
+            animate: true
+        })  //设置地图缩放到，默认就是开启动画
+    }, 2000);
+```
+* 图层往里进一个图层，放大
+
+```
+// 设置一个定时器当作事件触发源
+setTimeout(function () {
+    map.zoomIn() //图层往里进一个图层，放大
+    // map.zoomOut()  //图层往外出一个图层，缩小
+    }, 2000);
+```
+* 地图平移至中心点
+
+```
+// 设置一个定时器当作事件触发源
+setTimeout(function () {
+    map.panTo([37.91082, 126.73583],{
+       animate: true
+    }) //地图平移，默认就是true，将地图平移到给定的中心。如果新的中心点在屏幕内与现有的中心点不同则产生平移动作。
+    }, 2000);
+```
+
+* 地图飞到中心点
+
+```
+// 设置一个定时器当作事件触发源
+setTimeout(function () {
+    map.flyTo([37.91082, 128.73583]) // 点到点的抛物线动画，平移加缩放动画
+    }, 2000);
+```
+> 注意：尽量避免setZoom()等地图缩放方法与flyTo、flyToBounds一起合用，因为这两类地图操作方法都有各自的缩放值，造成动画不流畅、不能定位到目的点。
+
+* 地图飞到边界的合适的位置
+
+```
+setTimeout(function () {
+   map.flyToBounds(polygon.getBounds());   //getBounds（获取边界）：返回地图视图的经纬度边界。
+    //飞到这个多变形区域上面，自动判断区域块的大小，合适缩放图层，将地图视图尽可能大地设定在给定的地理边界内。
+    }, 2000);
+    
+let polygon = L.polygon(
+          [[37, -109.05], 
+          [41, -109.03], 
+          [41, -102.05], 
+          [37, -102.04]],
+     [40.774, -74.125], {
+       color: 'green',
+       fillColor: '#f03',
+       fillOpacity: 0.5
+    }).addTo(map);  //地图上绘制一个多形
+```
+
+* 地图定位到边界的合适的位置
+
+```
+setTimeout(function () {
+   map.fitBounds(polygon.getBounds());  //getBounds（获取边界）：返回地图视图的经纬度边界。
+  //平移到一个区域上面，自动判断区域块的大小，合适缩放图层
+    }, 2000);
+    
+let polygon = L.polygon(
+          [[37, -109.05], 
+          [41, -109.03], 
+          [41, -102.05], 
+          [37, -102.04]],
+     [40.774, -74.125], {
+       color: 'green',
+       fillColor: '#f03',
+       fillOpacity: 0.5
+    }).addTo(map);  //地图上绘制一个多边形
+```
+
+### 图层管理（加载、移除、调整顺序）： [Demo 3 ](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo3.html)
+* 库引用
+
+### 写在后面 
+#### 国内常用地图服务资源加载插件
 > Leaflet.ChineseTmsProviders [Provider for Chinese Tms Service](https://github.com/htoooth/Leaflet.ChineseTmsProviders)
 
 * Leaflet调用各种地图的功能十分复杂，幸好有leaflet.ChineseTmsProviders这个插件，这四种地图直接就可以加载进来，十分方便。
 
 * 使用方法可点击上面链接去GitHub看使用说明，或可参考[这篇文章](http://blog.csdn.net/GISuuser/article/details/77600052)。
+
+#### 模块化开发的加载包注意的问题
