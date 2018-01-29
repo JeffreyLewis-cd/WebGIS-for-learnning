@@ -7,14 +7,14 @@
 >   * 地图加载（底图类型、切换）：
 >   * 地图操作（缩放、平移、定位/书签、动画）：
 >   * 图层管理（加载、移除、调整顺序）：
->   *  要素标绘（点/聚簇、线、面，符号化/静态动态）：
->   *  属性标注（字段可选、样式定制）：
+>   * 要素标绘（点/聚簇、线、面，符号化/静态动态）：
+>   * 属性标注（字段可选、样式定制）：
 >   * 专题地图（点、线、面，渲染）：
->   *  查询定位（属性查询、空间查询/周边搜索/缓冲区/面查点线面/点线查面、图属互查、综合查询）：
->   *  信息窗口（入口、Popup、定制）：
->   *  坐标转换（）：
->   *  空间运算（长度面积测量、点取坐标、缓冲区、相交包含关系）：
->   *  动态监控（固定点状态切换、车辆监控）：
+>   * 查询定位（属性查询、空间查询/周边搜索/缓冲区/面查点线面/点线查面、图属互查、综合查询）：
+>   * 信息窗口（入口、Popup、定制）：
+>   * 坐标转换（）：
+>   * 空间运算（长度面积测量、点取坐标、缓冲区、相交包含关系）：
+>   * 动态监控（固定点状态切换、车辆监控）：
 > 4. 技术交流：每个人举例说明自己了解或用过的GIS相关功能，或创意思路；提问交流。
 <br><br> `每个功能，先简单介绍是做什么，然后用逻辑图把实现的逻辑讲清楚，再看代码（可以不在PPT里面，看IDE里就行），最后总结一下这个功能有哪些用途（你认为的）`
 ---
@@ -213,6 +213,20 @@ const setLayer = (layerUrls, maxZoom) => {
 ```
 >  不同的底图可能图层数不一样，就可能造成浏览器去请求不存在的图层，以及给用户展示出空白区域的不好体验，所以切换图层时候应注意设置最大及最小缩放值。
 
+###  要素标绘（点、线、面，符号化/静态动态） [Demo 4 ](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo4.html)
+* 库引用
+```
+ <link rel="stylesheet" href="./lib/leaflet/leaflet.css">
+ ```
+ ```
+ <script src="./lib/leaflet/leaflet.js"></script>
+ <script src="./js/urlTemplate.js"></script>
+  ```
+ * Maker及自定义Maker
+ 
+ ###  信息窗口（入口、Popup、定制） [Demo 5 ](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo5.html)
+* 库引用 如上  Demo 4
+ * 添加Popup
 ### 写在后面 
 #### 国内常用地图服务资源加载插件
 > Leaflet.ChineseTmsProviders [Provider for Chinese Tms Service](https://github.com/htoooth/Leaflet.ChineseTmsProviders)
@@ -222,3 +236,4 @@ const setLayer = (layerUrls, maxZoom) => {
 * 使用方法可点击上面链接去GitHub看使用说明，或可参考[这篇文章](http://blog.csdn.net/GISuuser/article/details/77600052)。
 
 #### 模块化开发的加载包注意的问题
+* 引 leaflet 包的时候不要忘记引用包里的css `import 'leaflet/dist/leaflet.css';`
