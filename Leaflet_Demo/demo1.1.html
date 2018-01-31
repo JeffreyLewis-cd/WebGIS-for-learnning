@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>leaflet地图操作（缩放、平移、定位/书签、动画）</title>
+    <title>leaflet底图加载（底图类型、切换）</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="./lib/Flat-UI-master/dist/css/vendor/bootstrap/css/bootstrap.min.css"
     />
@@ -93,20 +93,33 @@
 <script src="./lib/leaflet/leaflet.js"></script>
 <script src="./js/urlTemplate.js"></script>
 <script>
-    const map = L.map("mapDiv", {
-        crs: L.CRS.EPSG3857,
-        zoomControl: true,
-        minZoom: 1,
-        attributionControl: true,
-        zoomAnimation: true //缩放是否带动画
-    }).setView([36.52, 120.31], 8);
-    let Baselayer = L.tileLayer(urlTemplate.mapbox_Image, {
-        maxZoom: 17,
-        minZoom: 2,
-        attribution: 'liuvigongzuoshi@foxmail.com  &copy; <a href="https://github.com/liuvigongzuoshi/WebGIS-for-learnning/tree/master/Leaflet_Demo">WebGIS-for-learnning</a>'
-    }).addTo(map);
 
-    console.log(Baselayer)
+    const h5ApiSuccess = (position) => {
+        var latitude = position.coords.latitude; //纬度
+        var longitude = position.coords.longitude; //经度
+        console.log('你的经度纬度分别为' + longitude + ',' + latitude + '。')
+        return mapInit([latitude, longitude]);
+    };
+
+    const h5ApiError = () => {
+        console.log('/* 地理位置请求失败 */')
+    };
+
+    const mapInit = (LatLng) => {
+        map = L.map("mapDiv", {
+            crs: L.CRS.EPSG3857, //要使用的坐标参考系统，默认的坐标参考系
+            // crs: L.CRS.EPSG4326, //国内的坐标参考系
+            zoomControl: true,
+            // minZoom: 1,
+            attributionControl: true,
+        }).setView(LatLng, 18);//定位在当前位置
+        Baselayer = L.tileLayer(urlTemplate.mapbox_Image, {
+            maxZoom: 17, //最大视图
+            minZoom: 2, //最小视图
+            attribution: 'liuvigongzuoshi@foxmail.com  &copy; <a href="https://github.com/liuvigongzuoshi/WebGIS-for-learnning/tree/master/Leaflet_Demo">WebGIS-for-learnning</a>'
+        }).addTo(map);
+        console.log(Baselayer)
+    }
 
     const setLayer = (ele) => {
         map.removeLayer(Baselayer)
@@ -119,49 +132,22 @@
         } else if (ele == "mapbox_Vector") {
             Baselayer = L.tileLayer(urlTemplate.mapbox_Vector, {
                 maxZoom: 17,
-                minZoom: 2
+                minZoom: 1
             }).addTo(map);
             console.log(Baselayer)
         }
     }
 
-    // 做一个maker表示定位在这里
-    let marker = L.marker([36.52, 120.31]).addTo(map);
-
-    // 设置一个定时器当作事件触发源
-    setTimeout(function () {
-        map.setZoom(10, {
-            animate: false
-        })  //设置地图缩放到
-        // map.zoomIn() //图层往里进一个图层，放大
-        // map.zoomOut()  //图层往里进一个图层，缩小
-
-        // map.panTo([37.91082, 126.73583],{
-        //     animate: true
-        // }) //地图平移，默认是带动画的
-
-        //   map.flyTo([37.91082, 128.73583]) // 点到点的抛物线动画，平移加缩放动画
-        // console.log(polygon.getBounds())
-        // map.flyToBounds(polygon.getBounds()); //飞到一个区域上面，自动判断区域块的大小，合适缩放图层
-
-        // map.fitBounds(polygon.getBounds()); //平移到一个区域上面，自动判断区域块的大小，合适缩放图层
-
-    }, 2000);
-
-
-    // 绑定一个监听事件
-    map.on('zoomend', function (e) {
-        console.log(e.target._zoom)
-    })
-
-
-    let polygon = L.polygon([[37, -109.05], [41, -109.03], [41, -102.05], [37, -102.04]],
-        [40.774, -74.125], {
-            color: 'green',
-            fillColor: '#f03',
-            fillOpacity: 0.5
-        }).addTo(map);
-
+    let map;
+    let Baselayer;
+    // 使用H5 API定位 定位在当前位置
+    if (navigator.geolocation) {
+        console.log('/* 地理位置服务可用 */')
+        navigator.geolocation.getCurrentPosition(h5ApiSuccess, h5ApiError);
+    } else {
+        console.log('/* 地理位置服务不可用 */')
+        mapInit([30.374558, 104.09144]);//指定一个数据 定位在成都北纬N30°37′45.58″ 东经E104°09′1.44″
+    }
 </script>
 
 </html>

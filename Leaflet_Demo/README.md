@@ -69,7 +69,71 @@ const setLayer = (ele) => {
     }
 }
 ```
+### 基于Demo 1 利用H5 Geolocation API 定位到当前位置 [Demo 1.1 ](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo1.1.html)
+* 库引用  如上  Demo 1
+* 判断浏览器是否支持
+```
+    let map;
+    let Baselayer;
+    // 使用H5 API定位 定位在当前位置
+    if (navigator.geolocation) {
+        console.log('/* 地理位置服务可用 */')
+        navigator.geolocation.getCurrentPosition(h5ApiSuccess, h5ApiError);
+    } else {
+        console.log('/* 地理位置服务不可用 */')
+        mapInit([30.374558, 104.09144]);//指定一个数据 定位在成都北纬N30°37′45.58″ 东经E104°09′1.44″
+    }
+```
+* 定位成功或失败
+```
+    const h5ApiSuccess = (position) => {
+        var latitude = position.coords.latitude; //纬度
+        var longitude = position.coords.longitude; //经度
+        console.log('你的经度纬度分别为' + longitude + ',' + latitude + '。')
+        return mapInit([latitude, longitude]);
+    };
 
+    const h5ApiError = () => {
+        console.log('/* 地理位置请求失败 */')
+    };
+```
+* 成功后初始化底图
+```
+    const mapInit = (LatLng) => {
+        map = L.map("mapDiv", {
+            crs: L.CRS.EPSG3857, //要使用的坐标参考系统，默认的坐标参考系
+            // crs: L.CRS.EPSG4326, //国内的坐标参考系
+            zoomControl: true,
+            // minZoom: 1,
+            attributionControl: true,
+        }).setView(LatLng, 18);//定位在当前位置
+        Baselayer = L.tileLayer(urlTemplate.mapbox_Image, {
+            maxZoom: 17, //最大视图
+            minZoom: 2, //最小视图
+            attribution: 'liuvigongzuoshi@foxmail.com  &copy; <a href="https://github.com/liuvigongzuoshi/WebGIS-for-learnning/tree/master/Leaflet_Demo">WebGIS-for-learnning</a>'
+        }).addTo(map);
+        console.log(Baselayer)
+    }
+
+    const setLayer = (ele) => {
+        map.removeLayer(Baselayer)
+
+        if (ele == "mapbox_Image") {
+            Baselayer = L.tileLayer(urlTemplate.mapbox_Image, {
+                maxZoom: 17,
+                minZoom: 2
+            }).addTo(map);
+        } else if (ele == "mapbox_Vector") {
+            Baselayer = L.tileLayer(urlTemplate.mapbox_Vector, {
+                maxZoom: 17,
+                minZoom: 1
+            }).addTo(map);
+            console.log(Baselayer)
+        }
+    }
+    
+```
+> 更多了解geolocation对象，可参考[MDN Web 文档](https://developer.mozilla.org/zh-CN/docs/Web/API/Geolocation/Using_geolocation)
 ### 地图操作（缩放、平移、定位/书签、动画） [Demo 2 ](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo2.html)
 * 库引用  如上  Demo 1
 

@@ -1014,32 +1014,248 @@ body .markdown-body
     page-break-after: avoid;
   }
 }
-</style><title>README</title></head><body><article class="markdown-body"><h3 id="webgis-for-learnning"><a name="user-content-webgis-for-learnning" href="#webgis-for-learnning" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>WebGIS-for-learnning</h3>
+</style><title>README</title></head><body><article class="markdown-body"><h3 id="leafletdemo"><a name="user-content-leafletdemo" href="#leafletdemo" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>入门Leaflet之小Demo</h3>
 <hr />
 <blockquote>
-<p>GIS开发基础（以Leaflet为例）<br />
-1. GIS基本概念（黄东）：GIS、Map、Layer、Feature、Geometry、Symbol、Data（Point、Polyline、Polygon）、Renderer、Scale、Project、Coordinates；<br />
-2. GIS开发概述（黄东）：架构模式、常用平台和SDK、二维三维<br />
-3. 使用Leaflet开发常用功能（刘朋辉）<br />
+<p>写在前面 ---- WebGIS开发基础（以Leaflet为例）<br />
+1. GIS基本概念：GIS、Map、Layer、Feature、Geometry、Symbol、Data（Point、Polyline、Polygon）、Renderer、Scale、Project、Coordinates；<br />
+2. GIS开发概述：架构模式、常用平台和SDK、二维三维<br />
+3. 使用Leaflet开发常用功能<br />
   * 地图加载（底图类型、切换）：<br />
-  * 地图操作（缩放、平移、全图、定位/书签、动画）：<br />
+  * 地图操作（缩放、平移、定位/书签、动画）：<br />
   * 图层管理（加载、移除、调整顺序）：<br />
-  *  要素标绘（点/聚簇、线、面，符号化/静态动态）：<br />
-  *  属性标注（字段可选、样式定制）：<br />
+  * 要素标绘（点/聚簇、线、面，符号化/静态动态）：<br />
+  * 属性标注（字段可选、样式定制）：<br />
   * 专题地图（点、线、面，渲染）：<br />
-  *  查询定位（属性查询、空间查询/周边搜索/缓冲区/面查点线面/点线查面、图属互查、综合查询）：<br />
-  *  信息窗口（入口、Popup、定制）：<br />
-  *  坐标转换（）：<br />
-  *  空间运算（长度面积测量、点取坐标、缓冲区、相交包含关系）：<br />
-  *  动态监控（固定点状态切换、车辆监控）：<br />
+  * 查询定位（属性查询、空间查询/周边搜索/缓冲区/面查点线面/点线查面、图属互查、综合查询）：<br />
+  * 信息窗口（入口、Popup、定制）：<br />
+  * 坐标转换（）：<br />
+  * 空间运算（长度面积测量、点取坐标、缓冲区、相交包含关系）：<br />
+  * 动态监控（固定点状态切换、车辆监控）：<br />
 4. 技术交流：每个人举例说明自己了解或用过的GIS相关功能，或创意思路；提问交流。<br />
 <br><br> <code>每个功能，先简单介绍是做什么，然后用逻辑图把实现的逻辑讲清楚，再看代码（可以不在PPT里面，看IDE里就行），最后总结一下这个功能有哪些用途（你认为的）</code></p>
 </blockquote>
 <hr />
 <h4 id="demo"><a name="user-content-demo" href="#demo" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Demo用到的库</h4>
 <ul>
-<li>Flat-UI <a href="https://github.com/designmodo/Flat-UI/"> Flat UI is based on Bootstrap, a comfortable, responsive, and functional framework that simplifies the development of websites.</a>Flat-UI是基于Bootstrap的一个扁平化风格web开发框架</li>
+<li>Flat-UI <a href="https://github.com/designmodo/Flat-UI/"> Flat UI is based on Bootstrap, a comfortable, responsive, and functional framework that simplifies the development of websites.</a>Flat-UI是基于Bootstrap的一个扁平化风格web开发框架。</li>
 <li>leaflet <a href="http://leafletjs.com/reference-1.3.0.html">an open-source JavaScript library<br />
-for mobile-friendly interactive maps.</a>Leaflet 是一个为建设交互性好适用于移动设备地图，而开发的现代的、开源的 JavaScript 库</li>
-<li>Esri Leaflet <a href="http://esri.github.io/esri-leaflet/">A lightweight set of tools for using ArcGIS services with Leaflet.</a>一个轻量级的工具,基于leaflet利用ArcGIS服务</li>
+for mobile-friendly interactive maps.</a>Leaflet 是一个为建设交互性好适用于移动设备地图，而开发的现代的、开源的 JavaScript 库。</li>
+<li>Esri Leaflet <a href="http://esri.github.io/esri-leaflet/">A lightweight set of tools for using ArcGIS services with Leaflet.</a>一个轻量级的工具,基于leaflet利用ArcGIS服务。</li>
+</ul>
+<hr />
+<h3 id="demo-1"><a name="user-content-demo-1" href="#demo-1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>地图加载（底图类型、切换） <a href="https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo1.html">Demo 1 </a></h3>
+<ul>
+<li>库引用<br />
+<pre><code>&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;./lib/Flat-UI-master/dist/css/vendor/bootstrap/css/bootstrap.min.css&quot;
+    /&gt; 
+&lt;link rel=&quot;stylesheet&quot; href=&quot;./lib/Flat-UI-master/dist/css/flat-ui.min.css&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;./lib/leaflet/leaflet.css&quot;&gt;
+</code></pre><br />
+<pre><code>&lt;script src=&quot;./lib/Flat-UI-master/dist/js/vendor/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;./lib/Flat-UI-master/dist/js/flat-ui.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;./lib/leaflet/leaflet.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;./js/urlTemplate.js&quot;&gt;&lt;/script&gt;
+</code></pre></li>
+<li>地图加载与切换<br />
+<pre><code>const map = L.map(&quot;mapDiv&quot;, {
+        crs: L.CRS.EPSG3857, //要使用的坐标参考系统，默认的坐标参考系
+        // crs: L.CRS.EPSG4326, //国内的坐标参考系
+        zoomControl: true,
+        // minZoom: 1,
+        attributionControl: true,
+    }).setView([30.6268660000, 104.1528940000], 18);//定位在成都北纬N30°37′45.58″ 东经E104°09′1.44″
+    let Baselayer = L.tileLayer(urlTemplate.mapbox_Image, {
+       maxZoom: 17, //最大视图
+        minZoom: 2, //最小视图
+        attribution: 'liuvigongzuoshi@foxmail.com  &amp;copy; &lt;a href=&quot;https://github.com/liuvigongzuoshi/WebGIS-for-learnning/tree/master/Leaflet_Demo&quot;&gt;WebGIS-for-learnning&lt;/a&gt;'
+    }).addTo(map);
+
+const setLayer = (ele) =&gt; {
+    map.removeLayer(Baselayer)
+    if (ele == &quot;mapbox_Image&quot;) {
+        Baselayer = L.tileLayer(urlTemplate.mapbox_Image, {
+            maxZoom: 17,
+            minZoom: 2
+        }).addTo(map);
+    } else if (ele == &quot;mapbox_Vector&quot;) {
+        Baselayer = L.tileLayer(urlTemplate.mapbox_Vector, {
+            maxZoom: 17,
+            // minZoom: 2
+        }).addTo(map);
+        console.log(Baselayer)
+    }
+}
+</code></pre></li>
+</ul>
+<h3 id="demo-2"><a name="user-content-demo-2" href="#demo-2" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>地图操作（缩放、平移、定位/书签、动画） <a href="https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo2.html">Demo 2 </a></h3>
+<ul>
+<li>
+<p>库引用  如上  Demo 1</p>
+</li>
+<li>
+<p>设置地图缩放到指定图层</p>
+</li>
+</ul>
+<p><pre><code>// 设置一个定时器当作事件触发源
+setTimeout(function () {
+    map.setZoom(10, {
+            animate: true
+        })  //设置地图缩放到，默认就是开启动画
+    }, 2000);
+</code></pre><br />
+* 图层往里进一个图层，放大</p>
+<p><pre><code>// 设置一个定时器当作事件触发源
+setTimeout(function () {
+    map.zoomIn() //图层往里进一个图层，放大
+    // map.zoomOut()  //图层往外出一个图层，缩小
+    }, 2000);
+</code></pre><br />
+* 地图平移至中心点</p>
+<pre><code>// 设置一个定时器当作事件触发源
+setTimeout(function () {
+    map.panTo([37.91082, 126.73583],{
+       animate: true
+    }) //地图平移，默认就是true，将地图平移到给定的中心。如果新的中心点在屏幕内与现有的中心点不同则产生平移动作。
+    }, 2000);
+</code></pre>
+
+<ul>
+<li>地图飞到中心点</li>
+</ul>
+<pre><code>// 设置一个定时器当作事件触发源
+setTimeout(function () {
+    map.flyTo([37.91082, 128.73583]) // 点到点的抛物线动画，平移加缩放动画
+    }, 2000);
+</code></pre>
+
+<blockquote>
+<p>注意：尽量避免setZoom()等地图缩放方法与flyTo、flyToBounds一起合用，因为这两类地图操作方法都有各自的缩放值，造成动画不流畅、不能定位到目的点。</p>
+</blockquote>
+<ul>
+<li>地图飞到边界的合适的位置</li>
+</ul>
+<pre><code>setTimeout(function () {
+   map.flyToBounds(polygon.getBounds());   //getBounds（获取边界）：返回地图视图的经纬度边界。
+    //飞到这个多变形区域上面，自动判断区域块的大小，合适缩放图层，将地图视图尽可能大地设定在给定的地理边界内。
+    }, 2000);
+
+let polygon = L.polygon(
+          [[37, -109.05], 
+          [41, -109.03], 
+          [41, -102.05], 
+          [37, -102.04]],
+     [40.774, -74.125], {
+       color: 'green',
+       fillColor: '#f03',
+       fillOpacity: 0.5
+    }).addTo(map);  //地图上绘制一个多形
+</code></pre>
+
+<ul>
+<li>地图定位到边界的合适的位置</li>
+</ul>
+<pre><code>setTimeout(function () {
+   map.fitBounds(polygon.getBounds());  //getBounds（获取边界）：返回地图视图的经纬度边界。
+  //平移到一个区域上面，自动判断区域块的大小，合适缩放图层
+    }, 2000);
+
+let polygon = L.polygon(
+          [[37, -109.05], 
+          [41, -109.03], 
+          [41, -102.05], 
+          [37, -102.04]],
+     [40.774, -74.125], {
+       color: 'green',
+       fillColor: '#f03',
+       fillOpacity: 0.5
+    }).addTo(map);  //地图上绘制一个多边形
+</code></pre>
+
+<h3 id="demo-3"><a name="user-content-demo-3" href="#demo-3" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>图层管理（加载、移除、调整顺序）： <a href="https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo3.html">Demo 3 </a></h3>
+<ul>
+<li>库引用<br />
+<pre><code>&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot;  href=&quot;./lib/Flat-UI-master/dist/css/vendor/bootstrap/css/bootstrap.min.css&quot;
+    /&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;./lib/Flat-UI-master/dist/css/flat-ui.min.css&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;./lib/leaflet/leaflet.css&quot;&gt;
+</code></pre><br />
+<pre><code>&lt;script src=&quot;./lib/Flat-UI-master/dist/js/vendor/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;./lib/Flat-UI-master/dist/js/flat-ui.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;./lib/leaflet/leaflet.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;./lib/esri-leaflet-v2.1.2/dist/esri-leaflet.js&quot;&gt;&lt;/script&gt; &lt;!-- esri-leafleat插件 --&gt;
+&lt;script src=&quot;./js/urlTemplate.js&quot;&gt;&lt;/script&gt;
+</code></pre></li>
+<li>使用esri-leaflet插件加载ArcGIS底图服务<br />
+<pre><code>let oMap = null;
+    let oLayer = [];
+
+    oMap = L.map('mapDiv', {
+        crs: L.CRS.EPSG4326,
+        zoomControl: false,
+        minZoom: 7,
+        attributionControl: false
+    }).setView([29.59, 106.59], 12); //定位在重庆
+
+    oLayer.push(L.esri.tiledMapLayer({
+        url: urlTemplate.SYS_CQMap_IMG_MAPSERVER_PATH,
+        maxZoom: 17,
+        minZoom: 0,
+        useCors: false, //是否浏览器在跨域的情况下使用GET请求。
+    }).addTo(oMap)); //加载第一个底图
+
+    oLayer.push(L.esri.tiledMapLayer({
+        url: urlTemplate.SYS_CQMap_IMG_LABEL_MAPSERVER_PATH,
+        maxZoom: 17,
+        minZoom: 0,
+        useCors: false,
+    }).addTo(oMap));  //加载第二个底图
+</code></pre></li>
+<li>切换底图(移除及加载)</li>
+</ul>
+<pre><code>const setLayer = (layerUrls, maxZoom) =&gt; {
+        for (let i = 0; i &lt; oLayer.length; i++) {
+            oMap.removeLayer(oLayer[i]) //将图层在地图上移除
+        }
+        oLayer = [] //制空数组
+        layerUrls.map((item) =&gt; {
+            oLayer.push(L.esri.tiledMapLayer({
+                url: item,
+                useCors: false,
+                maxZoom: maxZoom, // 设置最大放大图层值
+            }).addTo(oMap));
+        })
+    }
+</code></pre>
+
+<blockquote>
+<p>不同的底图可能图层数不一样，就可能造成浏览器去请求不存在的图层，以及给用户展示出空白区域的不好体验，所以切换图层时候应注意设置最大及最小缩放值。</p>
+</blockquote>
+<h3 id="demo-4"><a name="user-content-demo-4" href="#demo-4" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>要素标绘（点、线、面，符号化/静态动态） <a href="https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo4.html">Demo 4 </a></h3>
+<ul>
+<li>库引用<br />
+<code>&lt;link rel="stylesheet" href="./lib/leaflet/leaflet.css"&gt;</code><br />
+<code>&lt;script src="./lib/leaflet/leaflet.js"&gt;&lt;/script&gt;
+ &lt;script src="./js/urlTemplate.js"&gt;&lt;/script&gt;</code></li>
+<li>Maker及自定义Maker</li>
+</ul>
+<p>###  信息窗口（入口、Popup、定制） <a href="https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo5.html">Demo 5 </a><br />
+* 库引用 如上  Demo 4<br />
+ * 添加Popup</p>
+<h3 id="_1"><a name="user-content-_1" href="#_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>写在后面</h3>
+<h4 id="_2"><a name="user-content-_2" href="#_2" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>国内常用地图服务资源加载插件</h4>
+<blockquote>
+<p>Leaflet.ChineseTmsProviders <a href="https://github.com/htoooth/Leaflet.ChineseTmsProviders">Provider for Chinese Tms Service</a></p>
+</blockquote>
+<ul>
+<li>
+<p>Leaflet调用各种地图的功能十分复杂，幸好有leaflet.ChineseTmsProviders这个插件，这四种地图直接就可以加载进来，十分方便。</p>
+</li>
+<li>
+<p>使用方法可点击上面链接去GitHub看使用说明，或可参考<a href="http://blog.csdn.net/GISuuser/article/details/77600052">这篇文章</a>。</p>
+</li>
+</ul>
+<h4 id="_3"><a name="user-content-_3" href="#_3" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>模块化开发的加载包注意的问题</h4>
+<ul>
+<li>引 leaflet 包的时候不要忘记引用包里的css <code>import 'leaflet/dist/leaflet.css';</code></li>
 </ul></article></body></html>
