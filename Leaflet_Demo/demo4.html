@@ -47,85 +47,61 @@
       crs: L.CRS.EPSG3857,
       zoomControl: false,
       minZoom: 1,
-      // attributionControl: true,
+      attributionControl: false,
       zoomAnimation: false //缩放是否带动画
-    }).setView([36.52, 120.31], 8);
+    }).setView([36.52, 120.31], 9);
     let Baselayer = L.tileLayer(urlTemplate.mapbox_Image, {
       maxZoom: 17,
       minZoom: 2
     }).addTo(map);
 
-
-    // 做一个maker
-    var marker = L.marker([36.52, 120.31]).addTo(map);
-    // 绑定一个popup
-    marker.bindTooltip('这是个Marker', { direction: 'left' }).openTooltip()
-    //自定义popup 
-    // var popup = L.popup({maxHeight: 250, maxWidth: 490, className: 'poorHouseholds'}).setContent('<p>Hello world!<br />This is a nice popup.</p>');
-
-    // popup.addTo(m)
-    // marker.on('click', function (e) {
-    //   console.log(e);
-    //   marker.openPopup([36.52, 120.31])
-    // })
-
-    var html = '<p>Hello world!<br />This is a nice popup.</p>'
-    var popup = marker.bindPopup(html, { maxHeight: 250, maxWidth: 490, className: 'poorHouseholds', offset: [0, 0] }).on('popupopen', function (params) {
-      // console.log(popup.isPopupOpen())
-      console.log(params)
-    });
     // 画一个circle
     var circle = L.circle([36.52, 120.31], {
-      color: 'green',
-      fillColor: '#f03',
-      fillOpacity: 0.5,
-      radius: 10000
+      color: 'green', //描边色
+      fillColor: '#f03',  //填充色
+      fillOpacity: 0.5, //透明度
+      radius: 10000 //半径，单位米
     }).addTo(map);
-    // 绑定popup
-    circle.bindPopup('我是个圆');
+    // 绑定一个提示标签
+    circle.bindTooltip('我是个圆');
+    // map.fitBounds(circle.getBounds());
+
+    // 做一个maker
+    const marker = L.marker([36.52, 120.31]).addTo(map);
+    // 绑定一个提示标签
+    marker.bindTooltip('这是个Marker', { direction: 'left' }).openTooltip()
+
+
+    //自定义一个maker
+    const greenIcon = L.icon({
+      iconUrl: './icon/logo.png',
+      iconSize: [300, 79], // size of the icon
+      popupAnchor: [0, -10] // point from which the popup should open relative to the iconAnchor
+    });
+
+    const oMarker = L.marker([36.52, 124.31], { icon: greenIcon }).addTo(map);
+    // 绑定一个提示标签
+    oMarker.bindTooltip('这是个自定义Marker', { direction: 'left', offset: [-150, 0] });
+
+    //画一根线
+    const polyline = L.polyline([[45.51, -122.68], [37.77, -122.43], [34.04, -118.2]], { color: 'red' }).addTo(map);
+    // 飞到这个线的位置
+    // map.fitBounds(polyline.getBounds());
 
 
     // 画一个polygon
     var polygon = L.polygon([
-      [ // first polygon
-        [[37, -109.05], [41, -109.03], [41, -102.05], [37, -102.04]], // outer ring
-        [[37.29, -108.58], [40.71, -108.58], [40.71, -102.50], [37.29, -102.50]] // hole
-      ],
-      [ // second polygon
-        [[41, -111.03], [45, -111.04], [45, -104.05], [41, -104.05]]
-      ]
+      [[37, -109.05], [41, -109.03], [41, -102.05], [37, -102.04]], // outer ring
+      [[37.29, -108.58], [40.71, -108.58], [40.71, -102.50], [37.29, -102.50]] // hole
     ], {
         color: 'green',
         fillColor: '#f03',
         fillOpacity: 0.5
       }).addTo(map);
-    // 绑定popup
-    polygon.bindPopup('this is 个多边形');
-
-    // 点击事件
-    // m.on('click', function(e) {
-    //   console.log(e);
-    //   alert('纬度：' + e.latlng.lat + '\n经度：' + e.latlng.lng);
-    // });
-
-    // 绑定点击事件并弹出弹窗
-    var mypop = L.popup();
-    map.on('click', function (e) {
-      mypop.setLatLng(e.latlng)
-        .setContent('你临幸了这个点：<br>' + e.latlng.toString())
-        .openOn(map);
-    });
-
-    // 添加一个平移事件
-    // setTimeout(function () {
-    //   m.setZoom(20)
-    //   m.flyTo([37.91082, 128.73583])
-    // }, 2000);
-
-    // 绑定一个监听事件
-    map.on('zoomend', function (e) {
-      console.log(e.target._zoom)
-    })
+    // 绑定一个提示标签
+    polygon.bindTooltip('this is 个多边形');
+     // 飞到这个多边形的位置
+    // map.fitBounds(polygon.getBounds());
 
   </script>
 </body>
