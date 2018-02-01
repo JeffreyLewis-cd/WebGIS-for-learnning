@@ -343,7 +343,43 @@ polygon.bindTooltip('this is 个多边形');
 ```
  ###  信息窗口（入口、Popup、定制） [Demo 5 ](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo5.html)
 * 库引用 如上  Demo 4
- * 添加Popup
+ * 画一个circle并绑定一个Popup
+ ```
+// 画一个circle
+var circle = L.circle([36.92, 121.31], {
+  color: 'green', //描边色
+  fillColor: '#f03',  //填充色
+  fillOpacity: 0.5, //透明度
+  radius: 10000 //半径，单位米
+}).addTo(map);
+
+// 绑定一个弹窗
+circle.bindPopup('我是个圆');
+ ```
+ * 定位一个marker，绑定一个自定义Popup
+```
+// 定位一个maker
+var marker = L.marker([36.52, 120.31]).addTo(map);
+
+//maker上自定义一个popup
+var html = '<p>Hello world!<br />This is a nice popup.</p>';
+
+var popup = marker.bindPopup(html, { maxHeight: 250, maxWidth: 490, className: 'content', offset: [0, 0] }).on('popupopen', function (params) {
+  console.log(params)
+});
+```
+* 实现动态改变Popup的内容
+```
+var mypop = L.popup();
+
+map.on('click', function (e) {
+  mypop.setLatLng(e.latlng)
+    .setContent('你临幸了这个点：<br>' + e.latlng.toString())
+    .openOn(map);
+});
+```
+ ###  信息窗口（入口、Popup、定制） [Demo 6 ](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo5.html)
+* 库引用 如上  Demo 4
 ### 写在后面 
 #### 国内常用地图服务资源加载插件
 > Leaflet.ChineseTmsProviders [Provider for Chinese Tms Service](https://github.com/htoooth/Leaflet.ChineseTmsProviders)
