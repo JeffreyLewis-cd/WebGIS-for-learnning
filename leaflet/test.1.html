@@ -10,7 +10,9 @@
   <script src="./lib/layui/layui.js"></script>
   <style>
     #map-container {
-      height: 800px;
+      position: fixed;
+      width: 100%;
+      height: 100%;
     }
 
     .leaflet-popup-content-wrapper {
@@ -162,127 +164,6 @@
 
 <body>
   <div id="map-container"></div>
-  <p class="popup-title"></p>
-  <div class="layui-tab layui-tab-card">
-    <ul class="layui-tab-title">
-      <li class="layui-this">基本概况</li>
-      <li onclick="poorTown.renderPopulationIofo(this)" data-render="0">人口统计</li>
-      <li onclick="poorTown.renderWorkingCondition(this)" data-render="0">生产条件</li>
-      <li onclick="poorTown.renderLivingCondition(this)" data-render="0">生活条件</li>
-      <li onclick="poorTown.renderCountrysidePlanning(this)" data-render="0">规划成果</li>
-    </ul>
-    <div class="layui-tab-content" style="">
-      <div class="layui-tab-item layui-show">
-        <blockquote class="layui-elem-quote pk_info" id="pk_info"></blockquote>
-      </div>
-      <div class="layui-tab-item populationIofo ">
-        <div class="houseTable">
-          <p class="title">
-            <i class="iconfont icon-hu"></i>
-            <span>户</span>
-          </p>
-          <ul class="row">
-            <li>
-              <p class="head">总户数</p>
-              <p class="item">844</p>
-            </li>
-            <li>
-              <p class="head">贫困户</p>
-              <p class="item">46
-                <span>(5.45%)</span>
-              </p>
-            </li>
-            <li>
-              <p class="head">低保户</p>
-              <p class="item">33
-                <span>(5.45%)</span>
-              </p>
-            </li>
-            <li>
-              <p class="head">五保户</p>
-              <p class="item">1
-                <span>(0.45%)</span>
-              </p>
-            </li>
-          </ul>
-        </div>
-        <div class="populationTable">
-          <p class="title">
-            <i class="iconfont icon-rk"></i>
-            <span>人口</span>
-          </p>
-          <div class="rowOne">
-            <ul class="row">
-              <li>
-                <p class="head">总人口</p>
-                <p class="item">844</p>
-              </li>
-              <li>
-                <p class="head">贫困人口</p>
-                <p class="item">46
-                  <span>(5.45%)</span>
-                </p>
-              </li>
-              <li>
-                <p class="head">低保人口</p>
-                <p class="item">33
-                  <span>(5.45%)</span>
-                </p>
-              </li>
-              <li>
-                <p class="head">五保人口</p>
-                <p class="item">1
-                  <span>(0.45%)</span>
-                </p>
-              </li>
-              <li>
-                <p class="head">少数名族</p>
-                <p class="item">1
-                  <span>(0.45%)</span>
-                </p>
-              </li>
-            </ul>
-          </div>
-          <div class="rowTwo">
-            <ul class="row">
-              <li>
-                <p class="head">妇女</p>
-                <p class="item">1
-                  <span>(0.45%)</span>
-                </p>
-              </li>
-              <li>
-                <p class="head">残疾人</p>
-                <p class="item">1
-                  <span>(0.45%)</span>
-                </p>
-              </li>
-              <li>
-                <p class="head">劳动力</p>
-                <p class="item">1
-                  <span>(0.45%)</span>
-                </p>
-              </li>
-              <li>
-                <p class="head">外出务工</p>
-                <p class="item">1
-                  <span>(0.45%)</span>
-                </p>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="layui-tab-item workingCondition">
-      </div>
-      <div class="layui-tab-item livingCondition">
-      </div>
-      <div class="layui-tab-item" id="subject-box">
-        <ul class="image-list"></ul>
-      </div>
-    </div>
-  </div>
-
   <script>
     var m = L.map('map-container', {
       zoomControl: false,
