@@ -287,8 +287,60 @@ const setLayer = (layerUrls, maxZoom) => {
  <script src="./lib/leaflet/leaflet.js"></script>
  <script src="./js/urlTemplate.js"></script>
   ```
- * Maker及自定义Maker
- 
+* 画一个圆
+```
+// 画一个circle
+var circle = L.circle([36.52, 120.31], {
+  color: 'green', //描边色
+  fillColor: '#f03',  //填充色
+  fillOpacity: 0.5, //透明度
+  radius: 10000 //半径，单位米
+}).addTo(map);
+// 绑定一个提示标签
+circle.bindTooltip('我是个圆');
+```
+* Maker及自定义Maker
+```
+// 做一个maker
+const marker = L.marker([36.52, 120.31]).addTo(map);
+// 绑定一个提示标签
+marker.bindTooltip('这是个Marker', { direction: 'left' }).openTooltip();
+
+
+//自定义一个maker
+const greenIcon = L.icon({
+  iconUrl: './icon/logo.png',
+  iconSize: [300, 79], // size of the icon
+  popupAnchor: [0, -10] // point from which the popup should open relative to the iconAnchor
+});
+
+const oMarker = L.marker([36.52, 124.31], { icon: greenIcon }).addTo(map);
+// 绑定一个提示标签
+oMarker.bindTooltip('这是个自定义Marker', { direction: 'left', offset: [-150, 0] });
+```
+* 画一根线
+```
+//画一根线
+const polyline = L.polyline([[45.51, -122.68], [37.77, -122.43], [34.04, -118.2]], { color: 'red' }).addTo(map);
+// 飞到这个线的位置
+// map.fitBounds(polyline.getBounds());
+```
+* 画一个多边形
+```
+// 画一个polygon
+var polygon = L.polygon([
+  [[37, -109.05], [41, -109.03], [41, -102.05], [37, -102.04]], // outer ring
+  [[37.29, -108.58], [40.71, -108.58], [40.71, -102.50], [37.29, -102.50]] // hole
+], {
+    color: 'green',
+    fillColor: '#f03',
+    fillOpacity: 0.5
+  }).addTo(map);
+// 绑定一个提示标签
+polygon.bindTooltip('this is 个多边形');
+// 飞到这个多边形的位置
+// map.fitBounds(polygon.getBounds());
+```
  ###  信息窗口（入口、Popup、定制） [Demo 5 ](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo5.html)
 * 库引用 如上  Demo 4
  * 添加Popup
