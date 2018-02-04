@@ -378,8 +378,121 @@ map.on('click', function (e) {
     .openOn(map);
 });
 ```
- ###  信息窗口（入口、Popup、定制） [Demo 6 ](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo5.html)
-* 库引用 如上  Demo 4
+
+ ###  geojson 数据绘制边界(坐标转换、渲染) [Demo 6 ](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo6.html)
+* 库引用 如上  Demo 3
+
+* 获得geojson并处理数据
+
+```
+const population = () => {
+    $.get("./js/geojson.json", function (response) {
+        let poplData = response.data;
+        let PolygonsCenter = response.geopoint
+        let oLat = null;
+        for (let i = 0; i < poplData.length; i++) {
+            // 处理geoJson数据格式
+            poplData[i].geoJson = JSON.parse(poplData[i].geoJson)
+           //完成坐标转换[纬度, 经度]
+            for (let j = 0; j < poplData[i].geoJson.coordinates[0][0].length; j++) {
+                oLat = poplData[i].geoJson.coordinates[0][0][j][0];
+                poplData[i].geoJson.coordinates[0][0][j][0] = poplData[i].geoJson.coordinates[0][0][j][1];
+                poplData[i].geoJson.coordinates[0][0][j][1] = oLat;
+            }
+        }
+        drawPolygons(poplData, PolygonsCenter)
+    });
+    }
+```
+
+> 模拟后台返回的数据[geojson](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/js/geojson.json)
+
+* 绘制边界并添加图例
+
+```
+let oPolygon_VilPop = [];
+
+const legend = L.control({
+    position: 'bottomright'
+ });
+ 
+const drawPolygons = (poplData, PolygonsCenter) => {
+    for (let i = 0; i < poplData.length; i++) {
+        oPolygon_VilPop[i] = L.polygon(poplData[i].geoJson.coordinates[0], {
+            color: 'white',
+            fillColor: getBgColor(poplData[i].population), //获取边界的填充色
+            fillOpacity: 0.6,
+            weight: 3,
+            dashArray: '10'
+        }).addTo(oMap).bindTooltip(poplData[i].villageName + '<br><br>人口' + poplData[i].population + '人', {
+            direction: 'top'
+        }).on({
+            mouseover: highlight, //鼠标移动上去高亮
+            mouseout: resetHighlight, //鼠标移出恢复原样式
+            click: zoomTo //点击最大化
+        });
+    }
+    
+// 添加图例
+legend.onAdd = legendHtml;
+legend.addTo(oMap);
+
+// 定位到该界限的中心位置
+oMap.flyToBounds(PolygonsCenter);
+}
+```
+
+* 返回边界的填充色及图列的样式
+```
+const getBgColor = (d) => {
+    return d > 400 ? '#800026' : d > 300 ? '#BD0026' : d > 200 ? '#FC4E2A' : d > 100 ? '#FD8D3C' : d > 50 ? '#FED976' : '#FFEDA0';
+}
+
+const legendHtml = (map) => {
+    var div = L.DomUtil.create('div', 'legend locateVP_legend'),
+        grades = [0, 50, 100, 200, 400],
+        labels = [],
+        from, to;
+    for (var i = 0; i < grades.length; i++) {
+        from = grades[i];
+        to = grades[i + 1];
+        labels.push(
+            '<i style="background:' + getBgColor(from + 1) + '"></i> ' +
+            from + (to ? ' &sim; ' + to + '人' : '以上'));
+    }
+    div.innerHTML = labels.join('<br>');
+    return div;
+    };
+```
+
+* 鼠标移动上去的事件、鼠标移出的事件、发生点击的事件
+
+```
+const highlight = (e) => {
+    var layer = e.target;
+    layer.setStyle({
+        weight: 6,
+        color: '#fff',
+        fillOpacity: 0.9,
+        dashArray: '0'
+    })
+}
+
+const resetHighlight = (e) => {
+    var layer = e.target;
+    layer.setStyle({
+        color: 'white',
+        weight: 3,
+        fillOpacity: 0.6,
+        dashArray: '10'
+    })
+}
+
+const zoomTo = (e) => {
+    oMap.fitBounds(e.target.getBounds());
+}
+```
+
 ### 写在后面 
 #### 国内常用地图服务资源加载插件
 > Leaflet.ChineseTmsProviders [Provider for Chinese Tms Service](https://github.com/htoooth/Leaflet.ChineseTmsProviders)
@@ -390,3 +503,6 @@ map.on('click', function (e) {
 
 #### 模块化开发的加载包注意的问题
 * 引 leaflet 包的时候不要忘记引用包里的css `import 'leaflet/dist/leaflet.css';`
+
+#### 关于控制台打印报错 ```Uncaught ReferenceError: proj4 is not defined```
+
