@@ -497,12 +497,16 @@ const zoomTo = (e) => {
 #### 国内常用地图服务资源加载插件
 > Leaflet.ChineseTmsProviders [Provider for Chinese Tms Service](https://github.com/htoooth/Leaflet.ChineseTmsProviders)
 
-* Leaflet调用各种地图的功能十分复杂，幸好有leaflet.ChineseTmsProviders这个插件，这四种地图直接就可以加载进来，十分方便。
+* Leaflet调用国内各种地图的功能十分复杂，幸好有leaflet.ChineseTmsProviders这个插件，这四种地图直接就可以加载进来，十分方便。
 
-* 使用方法可点击上面链接去GitHub看使用说明，或可参考[这篇文章](http://blog.csdn.net/GISuuser/article/details/77600052)。
+* 使用方法很简单可点击上面链接去GitHub看使用说明，或可参考[这篇文章](http://blog.csdn.net/GISuuser/article/details/77600052)。
 
 #### 模块化开发的加载包注意的问题
 * 引 leaflet 包的时候不要忘记引用包里的css `import 'leaflet/dist/leaflet.css';`
 
-#### 关于控制台打印报错 ```Uncaught ReferenceError: proj4 is not defined```
-
+#### 关于Leaflet和esri-leaflet一起使用L.esri.TiledMapLayer加载ArcGIS 服务切片底图时，控制台打印报错 ```Uncaught ReferenceError: proj4 is not defined``` 
+* 查看了下源码 `if (!proj4) { warn('L.esri.TiledMapLayer is using a non-mercator spatial reference. Support may be available through Proj4Leaflet http://esri.github.io/esri-leaflet/examples/non-mercator-projection.html');}` 问题就出在这里，esri-leaflet里的一个插件proj4leaflet依赖[proj4](https://github.com/proj4js/proj4js)，所以需要手动引入proj4这个包。
+* 这个GitHub上面的提问及回答 [Github esri-leaflet Issues](https://github.com/Esri/esri-leaflet/issues/1019)
+* 如果你是模块化开发，需要再```npm i proj4 ``` 然后再引入进来好了 ```import * as proj4 from 'proj4';
+window['proj4'] = proj4;```
+* 如果你是常规开发，直接添加一个script标签引用CDN资源上托管的[Proj4js](https://cdnjs.com/libraries/proj4js)就是了 `<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.4.4/proj4-src.js"></script>` 
