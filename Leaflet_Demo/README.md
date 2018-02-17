@@ -24,7 +24,7 @@
 for mobile-friendly interactive maps.](http://leafletjs.com/reference-1.3.0.html)Leaflet 是一个为建设交互性好适用于移动设备地图，而开发的现代的、开源的 JavaScript 库。
 * Esri Leaflet [A lightweight set of tools for using ArcGIS services with Leaflet.](http://esri.github.io/esri-leaflet/)一个轻量级的工具,基于leaflet利用ArcGIS服务。
 ---
-### 地图加载（底图类型、切换） [Demo 1 ](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo1.html)
+### PART 1： 地图加载（底图类型、切换） [Demo 1 ](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo1.html)
 * 库引用
 ```
 <link rel="stylesheet" type="text/css" href="./lib/Flat-UI-master/dist/css/vendor/bootstrap/css/bootstrap.min.css"
@@ -69,7 +69,7 @@ const setLayer = (ele) => {
     }
 }
 ```
-### 基于Demo 1 利用H5 Geolocation API 定位到当前位置 [Demo 1.1 ](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo1.1.html)
+###  基于Demo 1 利用H5 Geolocation API 定位到当前位置  [Demo 1.1 ](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo1.1.html)
 * 库引用  如上  Demo 1
 * 判断浏览器是否支持
 ```
@@ -135,7 +135,7 @@ const setLayer = (ele) => {
     
 ```
 > 更多了解geolocation对象，可参考[MDN Web 文档](https://developer.mozilla.org/zh-CN/docs/Web/API/Geolocation/Using_geolocation)
-### 地图操作（缩放、平移、定位/书签、动画） [Demo 2 ](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo2.html)
+### PART 2： 地图操作（缩放、平移、定位/书签、动画） [Demo 2 ](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo2.html)
 * 库引用  如上  Demo 1
 
 * 设置地图缩放到指定图层
@@ -218,7 +218,7 @@ let polygon = L.polygon(
     }).addTo(map);  //地图上绘制一个多边形
 ```
 
-### 图层管理（加载、移除、调整顺序）： [Demo 3 ](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo3.html)
+### PART 3： 图层管理（加载、移除、调整顺序）： [Demo 3 ](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo3.html)
 * 库引用
 ```
 <link rel="stylesheet" type="text/css"  href="./lib/Flat-UI-master/dist/css/vendor/bootstrap/css/bootstrap.min.css"
@@ -278,7 +278,7 @@ const setLayer = (layerUrls, maxZoom) => {
 ```
 >  不同的底图可能图层数不一样，就可能造成浏览器去请求不存在的图层，以及给用户展示出空白区域的不好体验，所以切换图层时候应注意设置最大及最小缩放值。
 
-###  要素标绘（点、线、面，符号化/静态动态） [Demo 4 ](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo4.html)
+###  PART 4： 要素标绘（点、线、面，符号化/静态动态） [Demo 4 ](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo4.html)
 * 库引用
 ```
  <link rel="stylesheet" href="./lib/leaflet/leaflet.css">
@@ -341,7 +341,7 @@ polygon.bindTooltip('this is 个多边形');
 // 飞到这个多边形的位置
 // map.fitBounds(polygon.getBounds());
 ```
- ###  信息窗口（入口、Popup、定制） [Demo 5 ](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo5.html)
+ ### PART 5： 信息窗口（入口、Popup、定制） [Demo 5 ](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo5.html)
 * 库引用 如上  Demo 4
  * 画一个circle并绑定一个Popup
  ```
@@ -379,7 +379,7 @@ map.on('click', function (e) {
 });
 ```
 
- ###  geojson 数据绘制边界(坐标转换、渲染) [Demo 6 ](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo6.html)
+ ### PART 6： geojson 数据绘制边界(坐标转换、渲染) [Demo 6 ](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo6.html)
 * 库引用 如上  Demo 3
 
 * 获得geojson并处理数据
@@ -499,7 +499,7 @@ const zoomTo = (e) => {
 
 * Leaflet调用国内各种地图的功能十分复杂，幸好有leaflet.ChineseTmsProviders这个插件，这四种地图直接就可以加载进来，十分方便。
 
-* 使用方法很简单可点击上面链接去GitHub看使用说明，或可参考[这篇文章](http://blog.csdn.net/GISuuser/article/details/77600052)。
+* 使用方法很简单可点击上面链接去GitHub看使用说明，或拉[这个demo](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/tree/master/Leaflet.ChineseTmsProviders_Demo)下来来瞧一瞧代码。
 
 #### 模块化开发的加载包注意的问题
 * 引 leaflet 包的时候不要忘记引用包里的css `import 'leaflet/dist/leaflet.css';`
@@ -509,4 +509,11 @@ const zoomTo = (e) => {
 * 这个GitHub上面的提问及回答 [Github esri-leaflet Issues](https://github.com/Esri/esri-leaflet/issues/1019)
 * 如果你是模块化开发，需要再```npm i proj4 ``` 然后再引入进来好了 ```import * as proj4 from 'proj4';
 window['proj4'] = proj4;```
-* 如果你是常规开发，直接添加一个script标签引用CDN资源上托管的[Proj4js](https://cdnjs.com/libraries/proj4js)就是了 `<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.4.4/proj4-src.js"></script>` 
+* 如果你是常规开发，直接添加一个script标签引用CDN资源上托管的[Proj4js](https://cdnjs.com/libraries/proj4js)就是了 `<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.4.4/proj4-src.js"></script>`
+
+#### 参考
+* [GIS制图乐园 esri-leaflet入门教程（1）-leaflet介绍](http://blog.csdn.net/liyuanxiang1984/article/details/54601985)
+* [Awesome GIS（GIS Tech Stack技术栈）](https://www.jianshu.com/p/3b3efa92dd6d)
+* [麻辣GIS Leaflet学习笔记](http://malagis.com/learning-leaflet-js-note.html)
+
+> 持续更新中  原文地址： 
