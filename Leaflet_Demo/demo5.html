@@ -59,7 +59,7 @@
     }).addTo(map);
 
     // 画一个circle
-    var circle = L.circle([36.92, 121.31], {
+    const circle = L.circle([36.92, 121.31], {
       color: 'green', //描边色
       fillColor: '#f03',  //填充色
       fillOpacity: 0.5, //透明度
@@ -69,16 +69,16 @@
     circle.bindPopup('我是个圆');
 
     // 做一个maker
-    var marker = L.marker([36.52, 120.31]).addTo(map);
+    const marker = L.marker([36.52, 120.31]).addTo(map);
 
     //maker上自定义一个popup
-    var html = '<p>Hello world!<br />This is a nice popup.</p>'
-    var popup = marker.bindPopup(html, { maxHeight: 250, maxWidth: 490, className: 'content', offset: [0, 0] }).on('popupopen', function (params) {
+    const html = '<p>Hello world!<br />This is a nice popup.</p>'
+    const popup = marker.bindPopup(html, { maxHeight: 250, maxWidth: 490, className: 'content', offset: [0, 0] }).on('popupopen', function (params) {
       console.log(params)
     });
 
     // 动态改变Popup的内容
-    var mypop = L.popup();
+    const mypop = L.popup();
     map.on('click', function (e) {
       mypop.setLatLng(e.latlng)
         .setContent('你临幸了这个点：<br>' + e.latlng.toString())

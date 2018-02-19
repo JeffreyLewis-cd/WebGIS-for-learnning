@@ -38,7 +38,7 @@
     }).addTo(map);
 
     // 画一个circle
-    var circle = L.circle([36.52, 120.31], {
+    const circle = L.circle([36.52, 120.31], {
       color: 'green', //描边色
       fillColor: '#f03',  //填充色
       fillOpacity: 0.5, //透明度
@@ -72,7 +72,7 @@
 
 
     // 画一个polygon
-    var polygon = L.polygon([
+    const polygon = L.polygon([
       [[37, -109.05], [41, -109.03], [41, -102.05], [37, -102.04]], // outer ring
       [[37.29, -108.58], [40.71, -108.58], [40.71, -102.50], [37.29, -102.50]] // hole
     ], {
