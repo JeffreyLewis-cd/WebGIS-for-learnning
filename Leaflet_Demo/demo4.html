@@ -32,9 +32,9 @@
       attributionControl: false,
       zoomAnimation: false //缩放是否带动画
     }).setView([36.52, 120.31], 9);
-    let Baselayer = L.tileLayer(urlTemplate.mapbox_Image, {
-      maxZoom: 17,
-      minZoom: 2
+    let Baselayer = L.tileLayer(urlTemplate.mapbox_url, {
+      maxZoom: 18,
+      id: 'mapbox.streets',
     }).addTo(map);
 
     // 画一个circle
