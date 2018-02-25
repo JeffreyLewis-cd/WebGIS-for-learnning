@@ -1,5 +1,5 @@
 {
-    "name": "WebGIS开发基础之Leaflet",
+    "name": "Leaflet",
     "children": [
         {
             "name": "GIS基本概念",
@@ -40,7 +40,7 @@
             ]
         },
         {
-            "name": " GIS开发概述",
+            "name": "GIS开发概述",
             "children": [
                 {
                     "name": "架构模式GIS"
@@ -54,7 +54,7 @@
             ]
         },
         {
-            "name": " Leaflet开发常用功能",
+            "name": "Leaflet基本功能",
             "children": [
                 {
                     "name": "地图加载",
@@ -219,64 +219,6 @@
                             "name": "车辆监控"
                         }
                     ]
-                }
-            ]
-        },
-        {
-            "name": "Leaflet API",
-            "children": [
-                {
-                    "name": "Easing",
-                    "value": 17010
-                },
-                {
-                    "name": "FunctionSequence",
-                    "value": 5842
-                },
-                {
-                    "name": "interpolate",
-                    "children": [
-                        {
-                            "name": "RectangleInterpolator",
-                            "value": 2042
-                        }
-                    ]
-                },
-                {
-                    "name": "ISchedulable",
-                    "value": 1041
-                },
-                {
-                    "name": "Parallel",
-                    "value": 5176
-                },
-                {
-                    "name": "Pause",
-                    "value": 449
-                },
-                {
-                    "name": "Scheduler",
-                    "value": 5593
-                },
-                {
-                    "name": "Sequence",
-                    "value": 5534
-                },
-                {
-                    "name": "Transition",
-                    "value": 9201
-                },
-                {
-                    "name": "Transitioner",
-                    "value": 19975
-                },
-                {
-                    "name": "TransitionEvent",
-                    "value": 1116
-                },
-                {
-                    "name": "Tween",
-                    "value": 6006
                 }
             ]
         }

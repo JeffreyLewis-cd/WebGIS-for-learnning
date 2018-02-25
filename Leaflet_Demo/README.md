@@ -290,7 +290,7 @@ const setLayer = (layerUrls, maxZoom) => {
 * 画一个圆
 ```
 // 画一个circle
-var circle = L.circle([36.52, 120.31], {
+const circle = L.circle([36.52, 120.31], {
   color: 'green', //描边色
   fillColor: '#f03',  //填充色
   fillOpacity: 0.5, //透明度
@@ -328,7 +328,7 @@ const polyline = L.polyline([[45.51, -122.68], [37.77, -122.43], [34.04, -118.2]
 * 画一个多边形
 ```
 // 画一个polygon
-var polygon = L.polygon([
+const polygon = L.polygon([
   [[37, -109.05], [41, -109.03], [41, -102.05], [37, -102.04]], // outer ring
   [[37.29, -108.58], [40.71, -108.58], [40.71, -102.50], [37.29, -102.50]] // hole
 ], {
@@ -346,7 +346,7 @@ polygon.bindTooltip('this is 个多边形');
  * 画一个circle并绑定一个Popup
  ```
 // 画一个circle
-var circle = L.circle([36.92, 121.31], {
+const circle = L.circle([36.92, 121.31], {
   color: 'green', //描边色
   fillColor: '#f03',  //填充色
   fillOpacity: 0.5, //透明度
@@ -359,18 +359,18 @@ circle.bindPopup('我是个圆');
  * 定位一个marker，绑定一个自定义Popup
 ```
 // 定位一个maker
-var marker = L.marker([36.52, 120.31]).addTo(map);
+const marker = L.marker([36.52, 120.31]).addTo(map);
 
 //maker上自定义一个popup
-var html = '<p>Hello world!<br />This is a nice popup.</p>';
+const html = '<p>Hello world!<br />This is a nice popup.</p>';
 
-var popup = marker.bindPopup(html, { maxHeight: 250, maxWidth: 490, className: 'content', offset: [0, 0] }).on('popupopen', function (params) {
+const popup = marker.bindPopup(html, { maxHeight: 250, maxWidth: 490, className: 'content', offset: [0, 0] }).on('popupopen', function (params) {
   console.log(params)
 });
 ```
 * 实现动态改变Popup的内容
 ```
-var mypop = L.popup();
+const mypop = L.popup();
 
 map.on('click', function (e) {
   mypop.setLatLng(e.latlng)
