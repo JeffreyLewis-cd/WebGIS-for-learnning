@@ -1,6 +1,6 @@
 ### 入门Leaflet之小Demo
 ---
-> 写在前面 ---- WebGIS开发基础（以Leaflet为例）
+> 写在前面 ---- WebGIS开发基础之Leaflet
 > 1. GIS基本概念：GIS、Map、Layer、Feature、Geometry、Symbol、Data（Point、Polyline、Polygon）、Renderer、Scale、Project、Coordinates；
 > 2. GIS开发概述：架构模式、常用平台和SDK、二维三维
 > 3. 使用Leaflet开发常用功能
@@ -15,8 +15,7 @@
 >   * 坐标转换（）：
 >   * 空间运算（长度面积测量、点取坐标、缓冲区、相交包含关系）：
 >   * 动态监控（固定点状态切换、车辆监控）：
-> 4. 技术交流：每个人举例说明自己了解或用过的GIS相关功能，或创意思路；提问交流。
-<br><br> `每个功能，先简单介绍是做什么，然后用逻辑图把实现的逻辑讲清楚，再看代码（可以不在PPT里面，看IDE里就行），最后总结一下这个功能有哪些用途（你认为的）`
+![](https://user-gold-cdn.xitu.io/2018/2/25/161cd7239e171384?w=1920&h=959&f=png&s=222128)
 ---
 #### Demo用到的库
 * Flat-UI [ Flat UI is based on Bootstrap, a comfortable, responsive, and functional framework that simplifies the development of websites.](https://github.com/designmodo/Flat-UI/)Flat-UI是基于Bootstrap的一个扁平化风格web开发框架。
@@ -25,6 +24,7 @@ for mobile-friendly interactive maps.](http://leafletjs.com/reference-1.3.0.html
 * Esri Leaflet [A lightweight set of tools for using ArcGIS services with Leaflet.](http://esri.github.io/esri-leaflet/)一个轻量级的工具,基于leaflet利用ArcGIS服务。
 ---
 ### PART 1： 地图加载（底图类型、切换） [Demo 1 ](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo1.html)
+![](https://user-gold-cdn.xitu.io/2018/2/25/161cd7e9bfff52ad?w=1920&h=957&f=jpeg&s=2237468)
 * 库引用
 ```
 <link rel="stylesheet" type="text/css" href="./lib/Flat-UI-master/dist/css/vendor/bootstrap/css/bootstrap.min.css"
@@ -70,6 +70,7 @@ const setLayer = (ele) => {
 }
 ```
 ###  基于Demo 1 利用H5 Geolocation API 定位到当前位置  [Demo 1.1 ](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo1.1.html)
+![](https://user-gold-cdn.xitu.io/2018/2/25/161cd89ad9e29d61?w=1920&h=1051&f=jpeg&s=1273408)
 * 库引用  如上  Demo 1
 * 判断浏览器是否支持
 ```
@@ -136,6 +137,8 @@ const setLayer = (ele) => {
 ```
 > 更多了解geolocation对象，可参考[MDN Web 文档](https://developer.mozilla.org/zh-CN/docs/Web/API/Geolocation/Using_geolocation)
 ### PART 2： 地图操作（缩放、平移、定位/书签、动画） [Demo 2 ](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo2.html)
+
+![](https://user-gold-cdn.xitu.io/2018/2/25/161cd98f9e2ee8ba?w=964&h=480&f=gif&s=942116)
 * 库引用  如上  Demo 1
 
 * 设置地图缩放到指定图层
@@ -279,6 +282,7 @@ const setLayer = (layerUrls, maxZoom) => {
 >  不同的底图可能图层数不一样，就可能造成浏览器去请求不存在的图层，以及给用户展示出空白区域的不好体验，所以切换图层时候应注意设置最大及最小缩放值。
 
 ###  PART 4： 要素标绘（点、线、面，符号化/静态动态） [Demo 4 ](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo4.html)
+![](https://user-gold-cdn.xitu.io/2018/2/25/161cd9e0fe78e6ff?w=1920&h=959&f=jpeg&s=1410718)
 * 库引用
 ```
  <link rel="stylesheet" href="./lib/leaflet/leaflet.css">
@@ -516,4 +520,4 @@ window['proj4'] = proj4;```
 * [Awesome GIS（GIS Tech Stack技术栈）](https://www.jianshu.com/p/3b3efa92dd6d)
 * [麻辣GIS Leaflet学习笔记](http://malagis.com/learning-leaflet-js-note.html)
 
-> 持续更新中  原文地址： 
+> 持续更新中  原文地址： https://juejin.im/post/5a658614f265da3e3f4cce0e

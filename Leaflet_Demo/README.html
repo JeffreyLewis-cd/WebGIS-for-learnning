@@ -1017,7 +1017,7 @@ body .markdown-body
 </style><title>README</title></head><body><article class="markdown-body"><h3 id="leafletdemo"><a name="user-content-leafletdemo" href="#leafletdemo" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>入门Leaflet之小Demo</h3>
 <hr />
 <blockquote>
-<p>写在前面 ---- WebGIS开发基础（以Leaflet为例）<br />
+<p>写在前面 ---- WebGIS开发基础之Leaflet<br />
 1. GIS基本概念：GIS、Map、Layer、Feature、Geometry、Symbol、Data（Point、Polyline、Polygon）、Renderer、Scale、Project、Coordinates；<br />
 2. GIS开发概述：架构模式、常用平台和SDK、二维三维<br />
 3. 使用Leaflet开发常用功能<br />
@@ -1032,8 +1032,7 @@ body .markdown-body
   * 坐标转换（）：<br />
   * 空间运算（长度面积测量、点取坐标、缓冲区、相交包含关系）：<br />
   * 动态监控（固定点状态切换、车辆监控）：<br />
-4. 技术交流：每个人举例说明自己了解或用过的GIS相关功能，或创意思路；提问交流。<br />
-<br><br> <code>每个功能，先简单介绍是做什么，然后用逻辑图把实现的逻辑讲清楚，再看代码（可以不在PPT里面，看IDE里就行），最后总结一下这个功能有哪些用途（你认为的）</code></p>
+<img alt="" src="https://user-gold-cdn.xitu.io/2018/2/25/161cd7239e171384?w=1920&amp;h=959&amp;f=png&amp;s=222128" /></p>
 </blockquote>
 <hr />
 <h4 id="demo"><a name="user-content-demo" href="#demo" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Demo用到的库</h4>
@@ -1044,9 +1043,9 @@ for mobile-friendly interactive maps.</a>Leaflet 是一个为建设交互性好�
 <li>Esri Leaflet <a href="http://esri.github.io/esri-leaflet/">A lightweight set of tools for using ArcGIS services with Leaflet.</a>一个轻量级的工具,基于leaflet利用ArcGIS服务。</li>
 </ul>
 <hr />
-<h3 id="demo-1"><a name="user-content-demo-1" href="#demo-1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>地图加载（底图类型、切换） <a href="https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo1.html">Demo 1 </a></h3>
-<ul>
-<li>库引用<br />
+<h3 id="part-1-demo-1"><a name="user-content-part-1-demo-1" href="#part-1-demo-1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>PART 1： 地图加载（底图类型、切换） <a href="https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo1.html">Demo 1 </a></h3>
+<p><img alt="" src="https://user-gold-cdn.xitu.io/2018/2/25/161cd7e9bfff52ad?w=1920&amp;h=957&amp;f=jpeg&amp;s=2237468" /><br />
+<em> 库引用<br />
 <pre><code>&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;./lib/Flat-UI-master/dist/css/vendor/bootstrap/css/bootstrap.min.css&quot;
     /&gt; 
 &lt;link rel=&quot;stylesheet&quot; href=&quot;./lib/Flat-UI-master/dist/css/flat-ui.min.css&quot;&gt;
@@ -1056,8 +1055,8 @@ for mobile-friendly interactive maps.</a>Leaflet 是一个为建设交互性好�
 &lt;script src=&quot;./lib/Flat-UI-master/dist/js/flat-ui.js&quot;&gt;&lt;/script&gt;
 &lt;script src=&quot;./lib/leaflet/leaflet.js&quot;&gt;&lt;/script&gt;
 &lt;script src=&quot;./js/urlTemplate.js&quot;&gt;&lt;/script&gt;
-</code></pre></li>
-<li>地图加载与切换<br />
+</code></pre><br />
+</em> 地图加载与切换<br />
 <pre><code>const map = L.map(&quot;mapDiv&quot;, {
         crs: L.CRS.EPSG3857, //要使用的坐标参考系统，默认的坐标参考系
         // crs: L.CRS.EPSG4326, //国内的坐标参考系
@@ -1086,16 +1085,78 @@ const setLayer = (ele) =&gt; {
         console.log(Baselayer)
     }
 }
-</code></pre></li>
-</ul>
-<h3 id="demo-2"><a name="user-content-demo-2" href="#demo-2" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>地图操作（缩放、平移、定位/书签、动画） <a href="https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo2.html">Demo 2 </a></h3>
+</code></pre></p>
+<h3 id="demo-1-h5-geolocation-api-demo-11"><a name="user-content-demo-1-h5-geolocation-api-demo-11" href="#demo-1-h5-geolocation-api-demo-11" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>基于Demo 1 利用H5 Geolocation API 定位到当前位置  <a href="https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo1.1.html">Demo 1.1 </a></h3>
+<p><img alt="" src="https://user-gold-cdn.xitu.io/2018/2/25/161cd89ad9e29d61?w=1920&amp;h=1051&amp;f=jpeg&amp;s=1273408" /><br />
+<em> 库引用  如上  Demo 1<br />
+</em> 判断浏览器是否支持<br />
+<pre><code>    let map;
+    let Baselayer;
+    // 使用H5 API定位 定位在当前位置
+    if (navigator.geolocation) {
+        console.log('/* 地理位置服务可用 */')
+        navigator.geolocation.getCurrentPosition(h5ApiSuccess, h5ApiError);
+    } else {
+        console.log('/* 地理位置服务不可用 */')
+        mapInit([30.374558, 104.09144]);//指定一个数据 定位在成都北纬N30°37′45.58″ 东经E104°09′1.44″
+    }
+</code></pre><br />
+<em> 定位成功或失败<br />
+<pre><code>    const h5ApiSuccess = (position) =&gt; {
+        var latitude = position.coords.latitude; //纬度
+        var longitude = position.coords.longitude; //经度
+        console.log('你的经度纬度分别为' + longitude + ',' + latitude + '。')
+        return mapInit([latitude, longitude]);
+    };
+
+    const h5ApiError = () =&gt; {
+        console.log('/* 地理位置请求失败 */')
+        mapInit([30.374558, 104.09144]);//指定一个数据 定位在成都北纬N30°37′45.58″ 东经E104°09′1.44″
+    };
+</code></pre><br />
+</em> 成功后初始化底图<br />
+<pre><code>    const mapInit = (LatLng) =&gt; {
+        map = L.map(&quot;mapDiv&quot;, {
+            crs: L.CRS.EPSG3857, //要使用的坐标参考系统，默认的坐标参考系
+            // crs: L.CRS.EPSG4326, //国内的坐标参考系
+            zoomControl: true,
+            // minZoom: 1,
+            attributionControl: true,
+        }).setView(LatLng, 18);//定位在当前位置
+        Baselayer = L.tileLayer(urlTemplate.mapbox_Image, {
+            maxZoom: 17, //最大视图
+            minZoom: 2, //最小视图
+            attribution: 'liuvigongzuoshi@foxmail.com  &amp;copy; &lt;a href=&quot;https://github.com/liuvigongzuoshi/WebGIS-for-learnning/tree/master/Leaflet_Demo&quot;&gt;WebGIS-for-learnning&lt;/a&gt;'
+        }).addTo(map);
+        console.log(Baselayer)
+    }
+
+    const setLayer = (ele) =&gt; {
+        map.removeLayer(Baselayer)
+
+        if (ele == &quot;mapbox_Image&quot;) {
+            Baselayer = L.tileLayer(urlTemplate.mapbox_Image, {
+                maxZoom: 17,
+                minZoom: 2
+            }).addTo(map);
+        } else if (ele == &quot;mapbox_Vector&quot;) {
+            Baselayer = L.tileLayer(urlTemplate.mapbox_Vector, {
+                maxZoom: 17,
+                minZoom: 1
+            }).addTo(map);
+            console.log(Baselayer)
+        }
+    }
+
+</code></pre></p>
+<blockquote>
+<p>更多了解geolocation对象，可参考<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Geolocation/Using_geolocation">MDN Web 文档</a></p>
+</blockquote>
+<h3 id="part-2-demo-2"><a name="user-content-part-2-demo-2" href="#part-2-demo-2" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>PART 2： 地图操作（缩放、平移、定位/书签、动画） <a href="https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo2.html">Demo 2 </a></h3>
+<p><img alt="" src="https://user-gold-cdn.xitu.io/2018/2/25/161cd98f9e2ee8ba?w=964&amp;h=480&amp;f=gif&amp;s=942116" /><br />
+* 库引用  如上  Demo 1</p>
 <ul>
-<li>
-<p>库引用  如上  Demo 1</p>
-</li>
-<li>
-<p>设置地图缩放到指定图层</p>
-</li>
+<li>设置地图缩放到指定图层</li>
 </ul>
 <p><pre><code>// 设置一个定时器当作事件触发源
 setTimeout(function () {
@@ -1172,7 +1233,7 @@ let polygon = L.polygon(
     }).addTo(map);  //地图上绘制一个多边形
 </code></pre>
 
-<h3 id="demo-3"><a name="user-content-demo-3" href="#demo-3" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>图层管理（加载、移除、调整顺序）： <a href="https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo3.html">Demo 3 </a></h3>
+<h3 id="part-3-demo-3"><a name="user-content-part-3-demo-3" href="#part-3-demo-3" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>PART 3： 图层管理（加载、移除、调整顺序）： <a href="https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo3.html">Demo 3 </a></h3>
 <ul>
 <li>库引用<br />
 <pre><code>&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot;  href=&quot;./lib/Flat-UI-master/dist/css/vendor/bootstrap/css/bootstrap.min.css&quot;
@@ -1231,17 +1292,198 @@ let polygon = L.polygon(
 <blockquote>
 <p>不同的底图可能图层数不一样，就可能造成浏览器去请求不存在的图层，以及给用户展示出空白区域的不好体验，所以切换图层时候应注意设置最大及最小缩放值。</p>
 </blockquote>
-<h3 id="demo-4"><a name="user-content-demo-4" href="#demo-4" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>要素标绘（点、线、面，符号化/静态动态） <a href="https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo4.html">Demo 4 </a></h3>
-<ul>
-<li>库引用<br />
-<code>&lt;link rel="stylesheet" href="./lib/leaflet/leaflet.css"&gt;</code><br />
-<code>&lt;script src="./lib/leaflet/leaflet.js"&gt;&lt;/script&gt;
- &lt;script src="./js/urlTemplate.js"&gt;&lt;/script&gt;</code></li>
-<li>Maker及自定义Maker</li>
-</ul>
-<p>###  信息窗口（入口、Popup、定制） <a href="https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo5.html">Demo 5 </a><br />
-* 库引用 如上  Demo 4<br />
- * 添加Popup</p>
+<h3 id="part-4-demo-4"><a name="user-content-part-4-demo-4" href="#part-4-demo-4" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>PART 4： 要素标绘（点、线、面，符号化/静态动态） <a href="https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo4.html">Demo 4 </a></h3>
+<p><img alt="" src="https://user-gold-cdn.xitu.io/2018/2/25/161cd9e0fe78e6ff?w=1920&amp;h=959&amp;f=jpeg&amp;s=1410718" /><br />
+* 库引用<br />
+<pre><code> &lt;link rel=&quot;stylesheet&quot; href=&quot;./lib/leaflet/leaflet.css&quot;&gt;
+ ```
+ ```
+ &lt;script src=&quot;./lib/leaflet/leaflet.js&quot;&gt;&lt;/script&gt;
+ &lt;script src=&quot;./js/urlTemplate.js&quot;&gt;&lt;/script&gt;
+  ```
+* 画一个圆
+</code></pre><br />
+// 画一个circle<br />
+const circle = L.circle([36.52, 120.31], {<br />
+  color: &lsquo;green&rsquo;, //描边色<br />
+  fillColor: &lsquo;#f03&rsquo;,  //填充色<br />
+  fillOpacity: 0.5, //透明度<br />
+  radius: 10000 //半径，单位米<br />
+}).addTo(map);<br />
+// 绑定一个提示标签<br />
+circle.bindTooltip(&lsquo;我是个圆&rsquo;);<br />
+<pre><code>* Maker及自定义Maker
+</code></pre><br />
+// 做一个maker<br />
+const marker = L.marker([36.52, 120.31]).addTo(map);<br />
+// 绑定一个提示标签<br />
+marker.bindTooltip(&lsquo;这是个Marker&rsquo;, { direction: &lsquo;left&rsquo; }).openTooltip();</p>
+<p>//自定义一个maker<br />
+const greenIcon = L.icon({<br />
+  iconUrl: &lsquo;./icon/logo.png&rsquo;,<br />
+  iconSize: [300, 79], // size of the icon<br />
+  popupAnchor: [0, -10] // point from which the popup should open relative to the iconAnchor<br />
+});</p>
+<p>const oMarker = L.marker([36.52, 124.31], { icon: greenIcon }).addTo(map);<br />
+// 绑定一个提示标签<br />
+oMarker.bindTooltip(&lsquo;这是个自定义Marker&rsquo;, { direction: &lsquo;left&rsquo;, offset: [-150, 0] });<br />
+<pre><code>* 画一根线
+</code></pre><br />
+//画一根线<br />
+const polyline = L.polyline([[45.51, -122.68], [37.77, -122.43], [34.04, -118.2]], { color: &lsquo;red&rsquo; }).addTo(map);<br />
+// 飞到这个线的位置<br />
+// map.fitBounds(polyline.getBounds());<br />
+<pre><code>* 画一个多边形
+</code></pre><br />
+// 画一个polygon<br />
+const polygon = L.polygon([<br />
+  [[37, -109.05], [41, -109.03], [41, -102.05], [37, -102.04]], // outer ring<br />
+  [[37.29, -108.58], [40.71, -108.58], [40.71, -102.50], [37.29, -102.50]] // hole<br />
+], {<br />
+    color: &lsquo;green&rsquo;,<br />
+    fillColor: &lsquo;#f03&rsquo;,<br />
+    fillOpacity: 0.5<br />
+  }).addTo(map);<br />
+// 绑定一个提示标签<br />
+polygon.bindTooltip(&lsquo;this is 个多边形&rsquo;);<br />
+// 飞到这个多边形的位置<br />
+// map.fitBounds(polygon.getBounds());<br />
+<pre><code> ### PART 5： 信息窗口（入口、Popup、定制） [Demo 5 ](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo5.html)
+* 库引用 如上  Demo 4
+ * 画一个circle并绑定一个Popup
+ ```
+// 画一个circle
+const circle = L.circle([36.92, 121.31], {
+  color: 'green', //描边色
+  fillColor: '#f03',  //填充色
+  fillOpacity: 0.5, //透明度
+  radius: 10000 //半径，单位米
+}).addTo(map);
+
+// 绑定一个弹窗
+circle.bindPopup('我是个圆');
+ ```
+ * 定位一个marker，绑定一个自定义Popup
+</code></pre><br />
+// 定位一个maker<br />
+const marker = L.marker([36.52, 120.31]).addTo(map);</p>
+<p>//maker上自定义一个popup<br />
+const html = &lsquo;<p>Hello world!<br />This is a nice popup.</p>&lsquo;;</p>
+<p>const popup = marker.bindPopup(html, { maxHeight: 250, maxWidth: 490, className: &lsquo;content&rsquo;, offset: [0, 0] }).on(&lsquo;popupopen&rsquo;, function (params) {<br />
+  console.log(params)<br />
+});<br />
+<pre><code>* 实现动态改变Popup的内容
+</code></pre><br />
+const mypop = L.popup();</p>
+<p>map.on(&lsquo;click&rsquo;, function (e) {<br />
+  mypop.setLatLng(e.latlng)<br />
+    .setContent(&lsquo;你临幸了这个点：<br>&lsquo; + e.latlng.toString())<br />
+    .openOn(map);<br />
+});<br />
+<pre><code>
+ ### PART 6： geojson 数据绘制边界(坐标转换、渲染) [Demo 6 ](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo6.html)
+* 库引用 如上  Demo 3
+
+* 获得geojson并处理数据
+
+</code></pre><br />
+const population = () =&gt; {<br />
+    $.get(&ldquo;./js/geojson.json&rdquo;, function (response) {<br />
+        let poplData = response.data;<br />
+        let PolygonsCenter = response.geopoint<br />
+        let oLat = null;<br />
+        for (let i = 0; i &lt; poplData.length; i++) {<br />
+            // 处理geoJson数据格式<br />
+            poplData[i].geoJson = JSON.parse(poplData[i].geoJson)<br />
+           //完成坐标转换[纬度, 经度]<br />
+            for (let j = 0; j &lt; poplData[i].geoJson.coordinates[0][0].length; j++) {<br />
+                oLat = poplData[i].geoJson.coordinates[0][0][j][0];<br />
+                poplData[i].geoJson.coordinates[0][0][j][0] = poplData[i].geoJson.coordinates[0][0][j][1];<br />
+                poplData[i].geoJson.coordinates[0][0][j][1] = oLat;<br />
+            }<br />
+        }<br />
+        drawPolygons(poplData, PolygonsCenter)<br />
+    });<br />
+    }<br />
+<pre><code>
+&gt; 模拟后台返回的数据[geojson](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/js/geojson.json)
+
+* 绘制边界并添加图例
+
+</code></pre><br />
+let oPolygon_VilPop = [];</p>
+<p>const legend = L.control({<br />
+    position: &lsquo;bottomright&rsquo;<br />
+ });</p>
+<p>const drawPolygons = (poplData, PolygonsCenter) =&gt; {<br />
+    for (let i = 0; i &lt; poplData.length; i++) {<br />
+        oPolygon_VilPop[i] = L.polygon(poplData[i].geoJson.coordinates[0], {<br />
+            color: &lsquo;white&rsquo;,<br />
+            fillColor: getBgColor(poplData[i].population), //获取边界的填充色<br />
+            fillOpacity: 0.6,<br />
+            weight: 3,<br />
+            dashArray: &lsquo;10&rsquo;<br />
+        }).addTo(oMap).bindTooltip(poplData[i].villageName + &lsquo;<br><br>人口&rsquo; + poplData[i].population + &lsquo;人&rsquo;, {<br />
+            direction: &lsquo;top&rsquo;<br />
+        }).on({<br />
+            mouseover: highlight, //鼠标移动上去高亮<br />
+            mouseout: resetHighlight, //鼠标移出恢复原样式<br />
+            click: zoomTo //点击最大化<br />
+        });<br />
+    }</p>
+<p>// 添加图例<br />
+legend.onAdd = legendHtml;<br />
+legend.addTo(oMap);</p>
+<p>// 定位到该界限的中心位置<br />
+oMap.flyToBounds(PolygonsCenter);<br />
+}<br />
+<pre><code>
+* 返回边界的填充色及图列的样式
+</code></pre><br />
+const getBgColor = (d) =&gt; {<br />
+    return d &gt; 400 ? &lsquo;#800026&rsquo; : d &gt; 300 ? &lsquo;#BD0026&rsquo; : d &gt; 200 ? &lsquo;#FC4E2A&rsquo; : d &gt; 100 ? &lsquo;#FD8D3C&rsquo; : d &gt; 50 ? &lsquo;#FED976&rsquo; : &lsquo;#FFEDA0&rsquo;;<br />
+}</p>
+<p>const legendHtml = (map) =&gt; {<br />
+    var div = L.DomUtil.create(&lsquo;div&rsquo;, &lsquo;legend locateVP_legend&rsquo;),<br />
+        grades = [0, 50, 100, 200, 400],<br />
+        labels = [],<br />
+        from, to;<br />
+    for (var i = 0; i &lt; grades.length; i++) {<br />
+        from = grades[i];<br />
+        to = grades[i + 1];<br />
+        labels.push(<br />
+            &lsquo;<i style="background:' + getBgColor(from + 1) + '"></i> &lsquo; +<br />
+            from + (to ? &lsquo; &sim; &lsquo; + to + &lsquo;人&rsquo; : &lsquo;以上&rsquo;));<br />
+    }<br />
+    div.innerHTML = labels.join(&lsquo;<br>&lsquo;);<br />
+    return div;<br />
+    };<br />
+<pre><code>
+* 鼠标移动上去的事件、鼠标移出的事件、发生点击的事件
+
+</code></pre><br />
+const highlight = (e) =&gt; {<br />
+    var layer = e.target;<br />
+    layer.setStyle({<br />
+        weight: 6,<br />
+        color: &lsquo;#fff&rsquo;,<br />
+        fillOpacity: 0.9,<br />
+        dashArray: &lsquo;0&rsquo;<br />
+    })<br />
+}</p>
+<p>const resetHighlight = (e) =&gt; {<br />
+    var layer = e.target;<br />
+    layer.setStyle({<br />
+        color: &lsquo;white&rsquo;,<br />
+        weight: 3,<br />
+        fillOpacity: 0.6,<br />
+        dashArray: &lsquo;10&rsquo;<br />
+    })<br />
+}</p>
+<p>const zoomTo = (e) =&gt; {<br />
+    oMap.fitBounds(e.target.getBounds());<br />
+}<br />
+```</p>
 <h3 id="_1"><a name="user-content-_1" href="#_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>写在后面</h3>
 <h4 id="_2"><a name="user-content-_2" href="#_2" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>国内常用地图服务资源加载插件</h4>
 <blockquote>
@@ -1249,13 +1491,30 @@ let polygon = L.polygon(
 </blockquote>
 <ul>
 <li>
-<p>Leaflet调用各种地图的功能十分复杂，幸好有leaflet.ChineseTmsProviders这个插件，这四种地图直接就可以加载进来，十分方便。</p>
+<p>Leaflet调用国内各种地图的功能十分复杂，幸好有leaflet.ChineseTmsProviders这个插件，这四种地图直接就可以加载进来，十分方便。</p>
 </li>
 <li>
-<p>使用方法可点击上面链接去GitHub看使用说明，或可参考<a href="http://blog.csdn.net/GISuuser/article/details/77600052">这篇文章</a>。</p>
+<p>使用方法很简单可点击上面链接去GitHub看使用说明，或拉<a href="https://github.com/liuvigongzuoshi/WebGIS-for-learnning/tree/master/Leaflet.ChineseTmsProviders_Demo">这个demo</a>下来来瞧一瞧代码。</p>
 </li>
 </ul>
 <h4 id="_3"><a name="user-content-_3" href="#_3" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>模块化开发的加载包注意的问题</h4>
 <ul>
 <li>引 leaflet 包的时候不要忘记引用包里的css <code>import 'leaflet/dist/leaflet.css';</code></li>
-</ul></article></body></html>
+</ul>
+<h4 id="leafletesri-leafletlesritiledmaplayerarcgis-uncaught-referenceerror-proj4-is-not-defined"><a name="user-content-leafletesri-leafletlesritiledmaplayerarcgis-uncaught-referenceerror-proj4-is-not-defined" href="#leafletesri-leafletlesritiledmaplayerarcgis-uncaught-referenceerror-proj4-is-not-defined" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>关于Leaflet和esri-leaflet一起使用L.esri.TiledMapLayer加载ArcGIS 服务切片底图时，控制台打印报错 <code>Uncaught ReferenceError: proj4 is not defined</code></h4>
+<ul>
+<li>查看了下源码 <code>if (!proj4) { warn('L.esri.TiledMapLayer is using a non-mercator spatial reference. Support may be available through Proj4Leaflet http://esri.github.io/esri-leaflet/examples/non-mercator-projection.html');}</code> 问题就出在这里，esri-leaflet里的一个插件proj4leaflet依赖<a href="https://github.com/proj4js/proj4js">proj4</a>，所以需要手动引入proj4这个包。</li>
+<li>这个GitHub上面的提问及回答 <a href="https://github.com/Esri/esri-leaflet/issues/1019">Github esri-leaflet Issues</a></li>
+<li>如果你是模块化开发，需要再<code>npm i proj4</code> 然后再引入进来好了 <code>import * as proj4 from 'proj4';
+window['proj4'] = proj4;</code></li>
+<li>如果你是常规开发，直接添加一个script标签引用CDN资源上托管的<a href="https://cdnjs.com/libraries/proj4js">Proj4js</a>就是了 <code>&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.4.4/proj4-src.js"&gt;&lt;/script&gt;</code></li>
+</ul>
+<h4 id="_4"><a name="user-content-_4" href="#_4" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>参考</h4>
+<ul>
+<li><a href="http://blog.csdn.net/liyuanxiang1984/article/details/54601985">GIS制图乐园 esri-leaflet入门教程（1）-leaflet介绍</a></li>
+<li><a href="https://www.jianshu.com/p/3b3efa92dd6d">Awesome GIS（GIS Tech Stack技术栈）</a></li>
+<li><a href="http://malagis.com/learning-leaflet-js-note.html">麻辣GIS Leaflet学习笔记</a></li>
+</ul>
+<blockquote>
+<p>持续更新中  原文地址： <a href="https://juejin.im/post/5a658614f265da3e3f4cce0e">https://juejin.im/post/5a658614f265da3e3f4cce0e</a></p>
+</blockquote></article></body></html>
