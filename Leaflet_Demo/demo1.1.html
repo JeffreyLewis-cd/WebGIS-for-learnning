@@ -10,6 +10,7 @@
     />
     <link rel="stylesheet" href="./lib/Flat-UI-master/dist/css/flat-ui.min.css">
     <link rel="stylesheet" href="./lib/leaflet/leaflet.css">
+    <link rel="stylesheet" href="./lib/leaflet.marker.highlight/leaflet.marker.highlight.css">
 </head>
 
 <body>
@@ -92,6 +93,7 @@
 <script src="./lib/Flat-UI-master/dist/js/flat-ui.js"></script>
 <script src="./lib/leaflet/leaflet.js"></script>
 <script src="./js/urlTemplate.js"></script>
+<script src="./lib/leaflet.marker.highlight/leaflet.marker.highlight.js"></script>
 <script>
 
     const h5ApiSuccess = (position) => {
@@ -119,6 +121,11 @@
             minZoom: 2, //最小视图
             attribution: 'liuvigongzuoshi@foxmail.com  &copy; <a href="https://github.com/liuvigongzuoshi/WebGIS-for-learnning/tree/master/Leaflet_Demo">WebGIS-for-learnning</a>'
         }).addTo(map);
+
+        var marker = L.marker(LatLng, {
+            highlight: "permanent" //永久高亮显示
+        }).addTo(map);
+
         console.log(Baselayer)
     }
 

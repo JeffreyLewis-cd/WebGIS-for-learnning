@@ -1,5 +1,6 @@
 ### 入门Leaflet之小Demo
 ---
+
 > 写在前面 ---- WebGIS开发基础之Leaflet
 > 1. GIS基本概念：GIS、Map、Layer、Feature、Geometry、Symbol、Data（Point、Polyline、Polygon）、Renderer、Scale、Project、Coordinates；
 > 2. GIS开发概述：架构模式、常用平台和SDK、二维三维
@@ -70,8 +71,13 @@ const setLayer = (ele) => {
 }
 ```
 ###  基于Demo 1 利用H5 Geolocation API 定位到当前位置  [Demo 1.1 ](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo1.1.html)
-![](https://user-gold-cdn.xitu.io/2018/2/25/161cd89ad9e29d61?w=1920&h=1051&f=jpeg&s=1273408)
+![](https://user-gold-cdn.xitu.io/2018/2/26/161d283e74f18d76?w=964&h=480&f=gif&s=862550)
 * 库引用  如上  Demo 1
+```
+//marker高亮显示库引用
+<link rel="stylesheet" href="./lib/leaflet.marker.highlight/leaflet.marker.highlight.css">
+<script src="./lib/leaflet.marker.highlight/leaflet.marker.highlight.js"></script>
+```
 * 判断浏览器是否支持
 ```
     let map;
@@ -114,28 +120,14 @@ const setLayer = (ele) => {
             minZoom: 2, //最小视图
             attribution: 'liuvigongzuoshi@foxmail.com  &copy; <a href="https://github.com/liuvigongzuoshi/WebGIS-for-learnning/tree/master/Leaflet_Demo">WebGIS-for-learnning</a>'
         }).addTo(map);
-        console.log(Baselayer)
+        
+        var marker = L.marker(LatLng, {
+            highlight: "permanent" //永久高亮显示
+        }).addTo(map);
     }
-
-    const setLayer = (ele) => {
-        map.removeLayer(Baselayer)
-
-        if (ele == "mapbox_Image") {
-            Baselayer = L.tileLayer(urlTemplate.mapbox_Image, {
-                maxZoom: 17,
-                minZoom: 2
-            }).addTo(map);
-        } else if (ele == "mapbox_Vector") {
-            Baselayer = L.tileLayer(urlTemplate.mapbox_Vector, {
-                maxZoom: 17,
-                minZoom: 1
-            }).addTo(map);
-            console.log(Baselayer)
-        }
-    }
-    
 ```
-> 更多了解geolocation对象，可参考[MDN Web 文档](https://developer.mozilla.org/zh-CN/docs/Web/API/Geolocation/Using_geolocation)
+> * 更多了解geolocation对象，可参考[MDN Web 文档](https://developer.mozilla.org/zh-CN/docs/Web/API/Geolocation/Using_geolocation)
+> * 更多了解使用marker高亮显示，可参考[leaflet.marker.highlight](https://github.com/brandonxiang/leaflet.marker.highlight)插件
 ### PART 2： 地图操作（缩放、平移、定位/书签、动画） [Demo 2 ](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo2.html)
 
 ![](https://user-gold-cdn.xitu.io/2018/2/25/161cd98f9e2ee8ba?w=964&h=480&f=gif&s=942116)
