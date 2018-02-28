@@ -17,6 +17,8 @@
 >   * 空间运算（长度面积测量、点取坐标、缓冲区、相交包含关系）：
 >   * 动态监控（固定点状态切换、车辆监控）：
 ![](https://user-gold-cdn.xitu.io/2018/2/25/161cd7239e171384?w=1920&h=959&f=png&s=222128)
+> 4.Leaflet API
+![](https://user-gold-cdn.xitu.io/2018/2/28/161dd09084bf4ce3?w=1189&h=5537&f=png&s=251861)
 ---
 #### Demo用到的库
 * Flat-UI [ Flat UI is based on Bootstrap, a comfortable, responsive, and functional framework that simplifies the development of websites.](https://github.com/designmodo/Flat-UI/)Flat-UI是基于Bootstrap的一个扁平化风格web开发框架。
@@ -121,65 +123,52 @@ const setLayer = (ele) => {
             attribution: 'liuvigongzuoshi@foxmail.com  &copy; <a href="https://github.com/liuvigongzuoshi/WebGIS-for-learnning/tree/master/Leaflet_Demo">WebGIS-for-learnning</a>'
         }).addTo(map);
         
-        var marker = L.marker(LatLng, {
+        L.marker(LatLng, {
             highlight: "permanent" //永久高亮显示
         }).addTo(map);
     }
 ```
 > * 更多了解geolocation对象，可参考[MDN Web 文档](https://developer.mozilla.org/zh-CN/docs/Web/API/Geolocation/Using_geolocation)
 > * 更多了解使用marker高亮显示，可参考[leaflet.marker.highlight](https://github.com/brandonxiang/leaflet.marker.highlight)插件
+> * 基于Demo 1 利用eaflet封装好的H5定位API,定位到当前位置 [Demo](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo1.2.html)
 ### PART 2： 地图操作（缩放、平移、定位/书签、动画） [Demo 2 ](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo2.html)
-
-![](https://user-gold-cdn.xitu.io/2018/2/25/161cd98f9e2ee8ba?w=964&h=480&f=gif&s=942116)
+![](https://user-gold-cdn.xitu.io/2018/2/28/161dcd420e164009?w=964&h=480&f=gif&s=2119022)
 * 库引用  如上  Demo 1
 
 * 设置地图缩放到指定图层
 
 ```
-// 设置一个定时器当作事件触发源
-setTimeout(function () {
-    map.setZoom(10, {
-            animate: true
-        })  //设置地图缩放到，默认就是开启动画
-    }, 2000);
+map.setZoom(10, {
+  // animate: false
+})  //设置地图缩放到
 ```
 * 图层往里进一个图层，放大
 
 ```
-// 设置一个定时器当作事件触发源
-setTimeout(function () {
-    map.zoomIn() //图层往里进一个图层，放大
-    // map.zoomOut()  //图层往外出一个图层，缩小
-    }, 2000);
+map.zoomIn() //图层往里进一个图层，放大
+//map.zoomOut()  //图层往里出一个图层，缩小
 ```
 * 地图平移至中心点
 
 ```
-// 设置一个定时器当作事件触发源
-setTimeout(function () {
-    map.panTo([37.91082, 126.73583],{
-       animate: true
-    }) //地图平移，默认就是true，将地图平移到给定的中心。如果新的中心点在屏幕内与现有的中心点不同则产生平移动作。
-    }, 2000);
+map.panTo([37.91082, 128.73583], {
+    animate: true
+}) //地图平移，默认就是true，将地图平移到给定的中心。如果新的中心点在屏幕内与现有的中心点不同则产生平移动作。
 ```
 
 * 地图飞到中心点
 
 ```
-// 设置一个定时器当作事件触发源
-setTimeout(function () {
-    map.flyTo([37.91082, 128.73583]) // 点到点的抛物线动画，平移加缩放动画
-    }, 2000);
+map.flyTo([36.52, 120.31]); // 点到点的抛物线动画，平移加缩放动画
 ```
+
 > 注意：尽量避免setZoom()等地图缩放方法与flyTo、flyToBounds一起合用，因为这两类地图操作方法都有各自的缩放值，造成动画不流畅、不能定位到目的点。
 
 * 地图飞到边界的合适的位置
 
 ```
-setTimeout(function () {
-   map.flyToBounds(polygon.getBounds());   //getBounds（获取边界）：返回地图视图的经纬度边界。
+map.flyToBounds(polygon.getBounds());   //getBounds（获取边界）：返回地图视图的经纬度边界。
     //飞到这个多变形区域上面，自动判断区域块的大小，合适缩放图层，将地图视图尽可能大地设定在给定的地理边界内。
-    }, 2000);
     
 let polygon = L.polygon(
           [[37, -109.05], 
@@ -196,10 +185,8 @@ let polygon = L.polygon(
 * 地图定位到边界的合适的位置
 
 ```
-setTimeout(function () {
-   map.fitBounds(polygon.getBounds());  //getBounds（获取边界）：返回地图视图的经纬度边界。
+map.fitBounds(polygon.getBounds());  //getBounds（获取边界）：返回地图视图的经纬度边界。
   //平移到一个区域上面，自动判断区域块的大小，合适缩放图层
-    }, 2000);
     
 let polygon = L.polygon(
           [[37, -109.05], 
@@ -214,6 +201,7 @@ let polygon = L.polygon(
 ```
 
 ### PART 3： 图层管理（加载、移除、调整顺序）： [Demo 3 ](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo3.html)
+![](https://user-gold-cdn.xitu.io/2018/2/28/161dce7e881a2362?w=1920&h=959&f=jpeg&s=2962698)
 * 库引用
 ```
 <link rel="stylesheet" type="text/css"  href="./lib/Flat-UI-master/dist/css/vendor/bootstrap/css/bootstrap.min.css"
@@ -274,15 +262,8 @@ const setLayer = (layerUrls, maxZoom) => {
 >  不同的底图可能图层数不一样，就可能造成浏览器去请求不存在的图层，以及给用户展示出空白区域的不好体验，所以切换图层时候应注意设置最大及最小缩放值。
 
 ###  PART 4： 要素标绘（点、线、面，符号化/静态动态） [Demo 4 ](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo4.html)
-![](https://user-gold-cdn.xitu.io/2018/2/25/161cd9e0fe78e6ff?w=1920&h=959&f=jpeg&s=1410718)
-* 库引用
-```
- <link rel="stylesheet" href="./lib/leaflet/leaflet.css">
- ```
- ```
- <script src="./lib/leaflet/leaflet.js"></script>
- <script src="./js/urlTemplate.js"></script>
-  ```
+![](https://user-gold-cdn.xitu.io/2018/2/28/161dcf0290ac287b?w=964&h=480&f=gif&s=3275194)
+* 库引用  如上  Demo 1
 * 画一个圆
 ```
 // 画一个circle
@@ -338,7 +319,8 @@ polygon.bindTooltip('this is 个多边形');
 // map.fitBounds(polygon.getBounds());
 ```
  ### PART 5： 信息窗口（入口、Popup、定制） [Demo 5 ](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo5.html)
-* 库引用 如上  Demo 4
+![](https://user-gold-cdn.xitu.io/2018/2/28/161dd0f8edbe36e5?w=964&h=480&f=gif&s=3360015)
+* 库引用 如上  Demo 1
  * 画一个circle并绑定一个Popup
  ```
 // 画一个circle
@@ -376,7 +358,9 @@ map.on('click', function (e) {
 ```
 
  ### PART 6： geojson 数据绘制边界(坐标转换、渲染) [Demo 6 ](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo6.html)
-* 库引用 如上  Demo 3
+ 
+![](https://user-gold-cdn.xitu.io/2018/3/1/161dd3b18402adcc?w=964&h=480&f=gif&s=5224505)
+* 库引用 如上  Demo   1
 
 * 获得geojson并处理数据
 
