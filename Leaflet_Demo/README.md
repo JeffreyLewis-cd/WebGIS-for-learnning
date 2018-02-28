@@ -497,6 +497,17 @@ const zoomTo = (e) => {
 
 * 使用方法很简单可点击上面链接去GitHub看使用说明，或拉[这个demo](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/tree/master/Leaflet.ChineseTmsProviders_Demo)下来来瞧一瞧代码。
 
+#### 优化marker相关的插件
+* 提供了丰富多彩的图标 [Leaflet.awesome-markers](https://github.com/lvoogdt/Leaflet.awesome-markers), See the [demo map](http://jsfiddle.net/VPzu4/92/)
+
+* 强大的集聚插件 [Leaflet.markercluster](https://github.com/Leaflet/Leaflet.markercluster), See the [demo map](https://leaflet.github.io/Leaflet.markercluster/example/marker-clustering-realworld.388.html)
+
+* 优化的label [Leaflet.label](https://github.com/Leaflet/Leaflet.label), See the [demo map](http://leaflet.github.io/Leaflet.label/)
+
+* 优化重叠在一起的markers [OverlappingMarkerSpiderfier-Leaflet](https://github.com/jawj/OverlappingMarkerSpiderfier-Leaflet), See the [demo map](http://jawj.github.io/OverlappingMarkerSpiderfier-Leaflet/demo.html)
+
+* 优化在边框上显示不在当前视野中的marker [Leaflet.EdgeMarker](https://github.com/ubergesundheit/Leaflet.EdgeMarker), See the [demo map](http://ubergesundheit.github.io/Leaflet.EdgeMarker/)
+
 #### 模块化开发的加载包注意的问题
 * 引 leaflet 包的时候不要忘记引用包里的css `import 'leaflet/dist/leaflet.css';`
 

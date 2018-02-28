@@ -94,8 +94,8 @@
     }).addTo(map);
 
 
-    // 做一个maker表示定位在这里
-    let marker = L.marker([36.52, 120.31]).addTo(map);
+    // 做一个maker表示定位在这里并可以拖动
+    let marker = L.marker([36.52, 120.31],{ draggable: true}).addTo(map);
 
     // 设置一个定时器当作事件触发源
     setTimeout(function () {

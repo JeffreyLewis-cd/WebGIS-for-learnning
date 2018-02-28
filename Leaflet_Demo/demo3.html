@@ -115,12 +115,12 @@
         useCors: false, //是否浏览器在跨域的情况下使用GET请求。
     }).addTo(oMap));
 
-    oLayer.push(L.esri.tiledMapLayer({
-        url: urlTemplate.SYS_CQMap_IMG_LABEL_MAPSERVER_PATH,
-        maxZoom: 17,
-        minZoom: 0,
-        useCors: false,
-    }).addTo(oMap));
+    // oLayer.push(L.esri.tiledMapLayer({
+    //     url: urlTemplate.SYS_CQMap_IMG_LABEL_MAPSERVER_PATH,
+    //     maxZoom: 17,
+    //     minZoom: 0,
+    //     useCors: false,
+    // }).addTo(oMap));
 
     console.log(oLayer)
     const setLayer = (layerUrls, maxZoom) => {
