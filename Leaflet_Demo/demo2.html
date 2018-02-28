@@ -28,42 +28,41 @@
                     </a>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Messages
+                    <a href="JavaScript:void(0)" class="dropdown-toggle" data-toggle="dropdown">地图缩放
                         <b class="caret"></b>
                     </a>
                     <span class="dropdown-arrow"></span>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="#">Action</a>
+                            <a href="JavaScript:void(0)" onclick="setZoom()">setZoom() 改变到图层10</a>
                         </li>
                         <li>
-                            <a href="#">Another action</a>
+                            <a href="JavaScript:void(0)" onclick="setZoomIn()">zoomIn() 图层往里进一个图层</a>
                         </li>
                         <li>
-                            <a href="#">Something else here</a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">Separated link</a>
+                            <a href="JavaScript:void(0)" onclick="setZoomOut()">zoomOut() 图层往里出一个图层</a>
                         </li>
                     </ul>
                 </li>
-                <li>
-                    <a href="#fakelink">About Us</a>
+                <li class="dropdown">
+                    <a href="JavaScript:void(0)" class="dropdown-toggle" data-toggle="dropdown">地图定位
+                        <b class="caret"></b>
+                    </a>
+                    <span class="dropdown-arrow"></span>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="JavaScript:void(0)" onclick="panTo()">panTo() 地图平移到点</a>
+                        </li>
+                        <li>
+                            <a href="JavaScript:void(0)" onclick="flyTo()">flyTo() 地图飞到点</a>
+                        </li>
+                        <li>
+                            <a href="JavaScript:void(0)" onclick="fitBounds()">fitBounds() 平移到一个区域</a>
+                            <a href="JavaScript:void(0)" onclick="flyToBounds()">flyToBounds() 飞到一个区域</a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
-            <form class="navbar-form navbar-right" action="#" role="search">
-                <div class="form-group">
-                    <div class="input-group">
-                        <input class="form-control" id="navbarInput-01" type="search" placeholder="Search">
-                        <span class="input-group-btn">
-                            <button type="submit" class="btn">
-                                <span class="fui-search"></span>
-                            </button>
-                        </span>
-                    </div>
-                </div>
-            </form>
         </div>
         <!-- /.navbar-collapse -->
     </nav>
@@ -95,28 +94,46 @@
 
 
     // 做一个maker表示定位在这里并可以拖动
-    let marker = L.marker([36.52, 120.31],{ draggable: true}).addTo(map);
+    L.marker([36.52, 120.31], { draggable: true }).addTo(map);
+    L.marker([37.91082, 128.73583], { draggable: true }).addTo(map);
 
-    // 设置一个定时器当作事件触发源
-    setTimeout(function () {
+
+
+    const setZoom = () => {
         map.setZoom(10, {
             // animate: false
         })  //设置地图缩放到
-        // map.zoomIn() //图层往里进一个图层，放大
-        // map.zoomOut()  //图层往里进一个图层，缩小
+    }
 
-        // map.panTo([37.91082, 126.73583],{
-        //     animate: true
-        // }) //地图平移，默认是带动画的
+    const setZoomIn = () => {
+        map.zoomIn() //图层往里进一个图层，放大
+    }
 
-        //   map.flyTo([37.91082, 128.73583]) // 点到点的抛物线动画，平移加缩放动画
-        // console.log(polygon.getBounds())
-        // map.flyToBounds(polygon.getBounds()); //飞到一个区域上面，自动判断区域块的大小，合适缩放图层
+    const setZoomOut = () => {
+        map.zoomOut()  //图层往里出一个图层，缩小
+    }
 
-        // map.fitBounds(polygon.getBounds()); //平移到一个区域上面，自动判断区域块的大小，合适缩放图层
 
-    }, 4000);
+    const panTo = () => {
+        map.panTo([37.91082, 128.73583], {
+            animate: true
+        }) //地图平移，默认就是true，将地图平移到给定的中心。如果新的中心点在屏幕内与现有的中心点不同则产生平移动作。
+    }
 
+    const flyTo = () => {
+        map.flyTo([36.52, 120.31]); // 点到点的抛物线动画，平移加缩放动画
+    }
+
+    const fitBounds = () => {
+        console.log(polygon.getBounds())
+        ap.fitBounds(polygon.getBounds());  //getBounds（获取边界）：返回地图视图的经纬度边界。
+        //平移到一个区域上面，自动判断区域块的大小，合适缩放图层
+    }
+
+    const flyToBounds = () => {
+        map.flyToBounds(polygon.getBounds());   //getBounds（获取边界）：返回地图视图的经纬度边界。
+        //飞到这个多变形区域上面，自动判断区域块的大小，合适缩放图层，将地图视图尽可能大地设定在给定的地理边界内。
+    }
 
     // 绑定一个监听事件
     map.on('zoomend', function (e) {
@@ -129,7 +146,7 @@
             color: 'green',
             fillColor: '#f03',
             fillOpacity: 0.5
-        }).addTo(map);
+        }).addTo(map); //地图上绘制一个多边形
 
 </script>
 

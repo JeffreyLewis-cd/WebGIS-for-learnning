@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>基于Demo 1 利用H5 Geolocation API 定位到当前位置</title>
+    <title>基于Demo 1 利用eaflet封装好的H5定位API,定位到当前位置</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="./lib/Flat-UI-master/dist/css/vendor/bootstrap/css/bootstrap.min.css"
     />
@@ -96,66 +96,54 @@
 <script src="./lib/leaflet.marker.highlight/leaflet.marker.highlight.js"></script>
 <script>
 
-    const h5ApiSuccess = (position) => {
-        var latitude = position.coords.latitude; //纬度
-        var longitude = position.coords.longitude; //经度
-        console.log('你的经度纬度分别为' + longitude + ',' + latitude + '。')
-        return mapInit([latitude, longitude]);
-    };
-
-    const h5ApiError = () => {
-        console.log('/* 地理位置请求失败 */')
-        mapInit([31.6268660000, 104.1528940000]);//指定一个数据 定位在成都北纬N30°37′45.58″ 东经E104°09′1.44″
-    };
-
-    const mapInit = (LatLng) => {
         map = L.map("mapDiv", {
             crs: L.CRS.EPSG3857, //要使用的坐标参考系统，默认的坐标参考系
-            // crs: L.CRS.EPSG4326, //国内的坐标参考系
             zoomControl: true,
-            // minZoom: 1,
             attributionControl: true,
-        }).setView(LatLng, 18);//定位在当前位置
+        }).fitWorld();
+
         Baselayer = L.tileLayer(urlTemplate.mapbox_Image, {
-            maxZoom: 17, //最大视图
+            maxZoom: 18, //最大视图
             minZoom: 2, //最小视图
             attribution: 'liuvigongzuoshi@foxmail.com  &copy; <a href="https://github.com/liuvigongzuoshi/WebGIS-for-learnning/tree/master/Leaflet_Demo">WebGIS-for-learnning</a>'
         }).addTo(map);
 
-        L.marker(LatLng, {
-            highlight: "permanent" //永久高亮显示
-        }).addTo(map);
+        
 
-        console.log(Baselayer)
-    }
+    // Leaflet封装H5定位函数，直接使用一个locate 函数即可完成
+     map.locate({
+        setView: true,
+        maxZoom: 16
+    });
+    map.on('locationfound', function (e) {
+        console.log(e)
+        L.marker(e.latlng, {
+            highlight: "permanent" //永久高亮显示
+        }).addTo(map).bindTooltip("你就在这个圈内");
+
+        L.circle(e.latlng, e.accuracy/2).addTo(map);
+    });
+
+    map.on('locationerror', function (e) {
+        console.log('定位出错=====>', e);
+    });
 
     const setLayer = (ele) => {
-        map.removeLayer(Baselayer)
+            map.removeLayer(Baselayer)
 
-        if (ele == "mapbox_Image") {
-            Baselayer = L.tileLayer(urlTemplate.mapbox_Image, {
-                maxZoom: 17,
-                minZoom: 2
-            }).addTo(map);
-        } else if (ele == "mapbox_Vector") {
-            Baselayer = L.tileLayer(urlTemplate.mapbox_Vector, {
-                maxZoom: 17,
-                minZoom: 1
-            }).addTo(map);
-            console.log(Baselayer)
+            if (ele == "mapbox_Image") {
+                Baselayer = L.tileLayer(urlTemplate.mapbox_Image, {
+                    maxZoom: 17,
+                    minZoom: 2
+                }).addTo(map);
+            } else if (ele == "mapbox_Vector") {
+                Baselayer = L.tileLayer(urlTemplate.mapbox_Vector, {
+                    maxZoom: 17,
+                    minZoom: 1
+                }).addTo(map);
+                console.log(Baselayer)
+            }
         }
-    }
-
-    let map;
-    let Baselayer;
-    // 使用H5 API定位 定位在当前位置
-    if (navigator.geolocation) {
-        console.log('/* 地理位置服务可用 */')
-        navigator.geolocation.getCurrentPosition(h5ApiSuccess, h5ApiError);
-    } else {
-        console.log('/* 地理位置服务不可用 */')
-        mapInit([30.6268660000, 104.1528940000]);//指定一个数据 定位在成都北纬N30°37′45.58″ 东经E104°09′1.44″
-    }
     
 </script>
 
