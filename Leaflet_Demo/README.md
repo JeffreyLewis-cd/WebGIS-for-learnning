@@ -17,8 +17,7 @@
 >   * 空间运算（长度面积测量、点取坐标、缓冲区、相交包含关系）：
 >   * 动态监控（固定点状态切换、车辆监控）：
 ![](https://user-gold-cdn.xitu.io/2018/2/25/161cd7239e171384?w=1920&h=959&f=png&s=222128)
-> 4.Leaflet API
-![](https://user-gold-cdn.xitu.io/2018/2/28/161dd09084bf4ce3?w=1189&h=5537&f=png&s=251861)
+> 4. [Leaflet API](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/tree/Leaflet%20API.png)![](https://user-gold-cdn.xitu.io/2018/3/1/161dd4951441cce1?w=691&h=1217&f=png&s=54115)
 ---
 #### Demo用到的库
 * Flat-UI [ Flat UI is based on Bootstrap, a comfortable, responsive, and functional framework that simplifies the development of websites.](https://github.com/designmodo/Flat-UI/)Flat-UI是基于Bootstrap的一个扁平化风格web开发框架。
@@ -44,8 +43,8 @@ for mobile-friendly interactive maps.](http://leafletjs.com/reference-1.3.0.html
 * 地图加载与切换
 ```
 const map = L.map("mapDiv", {
-        crs: L.CRS.EPSG3857, //要使用的坐标参考系统，默认的坐标参考系
-        // crs: L.CRS.EPSG4326, //国内的坐标参考系
+        crs: L.CRS.EPSG3857, //要使用的坐标参考系统，默认的坐标参考系,互联网地图主流坐标系
+        // crs: L.CRS.EPSG4326, //WGS 84坐标系，GPS默认坐标系
         zoomControl: true,
         // minZoom: 1,
         attributionControl: true,

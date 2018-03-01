@@ -1032,7 +1032,8 @@ body .markdown-body
   * 坐标转换（）：<br />
   * 空间运算（长度面积测量、点取坐标、缓冲区、相交包含关系）：<br />
   * 动态监控（固定点状态切换、车辆监控）：<br />
-<img alt="" src="https://user-gold-cdn.xitu.io/2018/2/25/161cd7239e171384?w=1920&amp;h=959&amp;f=png&amp;s=222128" /></p>
+<img alt="" src="https://user-gold-cdn.xitu.io/2018/2/25/161cd7239e171384?w=1920&amp;h=959&amp;f=png&amp;s=222128" /><br />
+4. <a href="https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/tree/Leaflet%20API.png">Leaflet API</a><img alt="" src="https://user-gold-cdn.xitu.io/2018/3/1/161dd4951441cce1?w=691&amp;h=1217&amp;f=png&amp;s=54115" /></p>
 </blockquote>
 <hr />
 <h4 id="demo"><a name="user-content-demo" href="#demo" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Demo用到的库</h4>
@@ -1087,8 +1088,12 @@ const setLayer = (ele) =&gt; {
 }
 </code></pre></p>
 <h3 id="demo-1-h5-geolocation-api-demo-11"><a name="user-content-demo-1-h5-geolocation-api-demo-11" href="#demo-1-h5-geolocation-api-demo-11" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>基于Demo 1 利用H5 Geolocation API 定位到当前位置  <a href="https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo1.1.html">Demo 1.1 </a></h3>
-<p><img alt="" src="https://user-gold-cdn.xitu.io/2018/2/25/161cd89ad9e29d61?w=1920&amp;h=1051&amp;f=jpeg&amp;s=1273408" /><br />
+<p><img alt="" src="https://user-gold-cdn.xitu.io/2018/2/26/161d283e74f18d76?w=964&amp;h=480&amp;f=gif&amp;s=862550" /><br />
 <em> 库引用  如上  Demo 1<br />
+<pre><code>//marker高亮显示库引用
+&lt;link rel=&quot;stylesheet&quot; href=&quot;./lib/leaflet.marker.highlight/leaflet.marker.highlight.css&quot;&gt;
+&lt;script src=&quot;./lib/leaflet.marker.highlight/leaflet.marker.highlight.js&quot;&gt;&lt;/script&gt;
+</code></pre><br />
 </em> 判断浏览器是否支持<br />
 <pre><code>    let map;
     let Baselayer;
@@ -1128,66 +1133,43 @@ const setLayer = (ele) =&gt; {
             minZoom: 2, //最小视图
             attribution: 'liuvigongzuoshi@foxmail.com  &amp;copy; &lt;a href=&quot;https://github.com/liuvigongzuoshi/WebGIS-for-learnning/tree/master/Leaflet_Demo&quot;&gt;WebGIS-for-learnning&lt;/a&gt;'
         }).addTo(map);
-        console.log(Baselayer)
+
+        L.marker(LatLng, {
+            highlight: &quot;permanent&quot; //永久高亮显示
+        }).addTo(map);
     }
-
-    const setLayer = (ele) =&gt; {
-        map.removeLayer(Baselayer)
-
-        if (ele == &quot;mapbox_Image&quot;) {
-            Baselayer = L.tileLayer(urlTemplate.mapbox_Image, {
-                maxZoom: 17,
-                minZoom: 2
-            }).addTo(map);
-        } else if (ele == &quot;mapbox_Vector&quot;) {
-            Baselayer = L.tileLayer(urlTemplate.mapbox_Vector, {
-                maxZoom: 17,
-                minZoom: 1
-            }).addTo(map);
-            console.log(Baselayer)
-        }
-    }
-
 </code></pre></p>
 <blockquote>
-<p>更多了解geolocation对象，可参考<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Geolocation/Using_geolocation">MDN Web 文档</a></p>
+<ul>
+<li>更多了解geolocation对象，可参考<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Geolocation/Using_geolocation">MDN Web 文档</a></li>
+<li>更多了解使用marker高亮显示，可参考<a href="https://github.com/brandonxiang/leaflet.marker.highlight">leaflet.marker.highlight</a>插件</li>
+<li>基于Demo 1 利用eaflet封装好的H5定位API,定位到当前位置 <a href="https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo1.2.html">Demo</a></li>
+</ul>
 </blockquote>
 <h3 id="part-2-demo-2"><a name="user-content-part-2-demo-2" href="#part-2-demo-2" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>PART 2： 地图操作（缩放、平移、定位/书签、动画） <a href="https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo2.html">Demo 2 </a></h3>
-<p><img alt="" src="https://user-gold-cdn.xitu.io/2018/2/25/161cd98f9e2ee8ba?w=964&amp;h=480&amp;f=gif&amp;s=942116" /><br />
+<p><img alt="" src="https://user-gold-cdn.xitu.io/2018/2/28/161dcd420e164009?w=964&amp;h=480&amp;f=gif&amp;s=2119022" /><br />
 * 库引用  如上  Demo 1</p>
 <ul>
 <li>设置地图缩放到指定图层</li>
 </ul>
-<p><pre><code>// 设置一个定时器当作事件触发源
-setTimeout(function () {
-    map.setZoom(10, {
-            animate: true
-        })  //设置地图缩放到，默认就是开启动画
-    }, 2000);
+<p><pre><code>map.setZoom(10, {
+  // animate: false
+})  //设置地图缩放到
 </code></pre><br />
 * 图层往里进一个图层，放大</p>
-<p><pre><code>// 设置一个定时器当作事件触发源
-setTimeout(function () {
-    map.zoomIn() //图层往里进一个图层，放大
-    // map.zoomOut()  //图层往外出一个图层，缩小
-    }, 2000);
+<p><pre><code>map.zoomIn() //图层往里进一个图层，放大
+//map.zoomOut()  //图层往里出一个图层，缩小
 </code></pre><br />
 * 地图平移至中心点</p>
-<pre><code>// 设置一个定时器当作事件触发源
-setTimeout(function () {
-    map.panTo([37.91082, 126.73583],{
-       animate: true
-    }) //地图平移，默认就是true，将地图平移到给定的中心。如果新的中心点在屏幕内与现有的中心点不同则产生平移动作。
-    }, 2000);
+<pre><code>map.panTo([37.91082, 128.73583], {
+    animate: true
+}) //地图平移，默认就是true，将地图平移到给定的中心。如果新的中心点在屏幕内与现有的中心点不同则产生平移动作。
 </code></pre>
 
 <ul>
 <li>地图飞到中心点</li>
 </ul>
-<pre><code>// 设置一个定时器当作事件触发源
-setTimeout(function () {
-    map.flyTo([37.91082, 128.73583]) // 点到点的抛物线动画，平移加缩放动画
-    }, 2000);
+<pre><code>map.flyTo([36.52, 120.31]); // 点到点的抛物线动画，平移加缩放动画
 </code></pre>
 
 <blockquote>
@@ -1196,10 +1178,8 @@ setTimeout(function () {
 <ul>
 <li>地图飞到边界的合适的位置</li>
 </ul>
-<pre><code>setTimeout(function () {
-   map.flyToBounds(polygon.getBounds());   //getBounds（获取边界）：返回地图视图的经纬度边界。
+<pre><code>map.flyToBounds(polygon.getBounds());   //getBounds（获取边界）：返回地图视图的经纬度边界。
     //飞到这个多变形区域上面，自动判断区域块的大小，合适缩放图层，将地图视图尽可能大地设定在给定的地理边界内。
-    }, 2000);
 
 let polygon = L.polygon(
           [[37, -109.05], 
@@ -1216,10 +1196,8 @@ let polygon = L.polygon(
 <ul>
 <li>地图定位到边界的合适的位置</li>
 </ul>
-<pre><code>setTimeout(function () {
-   map.fitBounds(polygon.getBounds());  //getBounds（获取边界）：返回地图视图的经纬度边界。
+<pre><code>map.fitBounds(polygon.getBounds());  //getBounds（获取边界）：返回地图视图的经纬度边界。
   //平移到一个区域上面，自动判断区域块的大小，合适缩放图层
-    }, 2000);
 
 let polygon = L.polygon(
           [[37, -109.05], 
@@ -1234,8 +1212,8 @@ let polygon = L.polygon(
 </code></pre>
 
 <h3 id="part-3-demo-3"><a name="user-content-part-3-demo-3" href="#part-3-demo-3" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>PART 3： 图层管理（加载、移除、调整顺序）： <a href="https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo3.html">Demo 3 </a></h3>
-<ul>
-<li>库引用<br />
+<p><img alt="" src="https://user-gold-cdn.xitu.io/2018/2/28/161dce7e881a2362?w=1920&amp;h=959&amp;f=jpeg&amp;s=2962698" /><br />
+<em> 库引用<br />
 <pre><code>&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot;  href=&quot;./lib/Flat-UI-master/dist/css/vendor/bootstrap/css/bootstrap.min.css&quot;
     /&gt;
 &lt;link rel=&quot;stylesheet&quot; href=&quot;./lib/Flat-UI-master/dist/css/flat-ui.min.css&quot;&gt;
@@ -1246,8 +1224,8 @@ let polygon = L.polygon(
 &lt;script src=&quot;./lib/leaflet/leaflet.js&quot;&gt;&lt;/script&gt;
 &lt;script src=&quot;./lib/esri-leaflet-v2.1.2/dist/esri-leaflet.js&quot;&gt;&lt;/script&gt; &lt;!-- esri-leafleat插件 --&gt;
 &lt;script src=&quot;./js/urlTemplate.js&quot;&gt;&lt;/script&gt;
-</code></pre></li>
-<li>使用esri-leaflet插件加载ArcGIS底图服务<br />
+</code></pre><br />
+</em> 使用esri-leaflet插件加载ArcGIS底图服务<br />
 <pre><code>let oMap = null;
     let oLayer = [];
 
@@ -1271,9 +1249,8 @@ let polygon = L.polygon(
         minZoom: 0,
         useCors: false,
     }).addTo(oMap));  //加载第二个底图
-</code></pre></li>
-<li>切换底图(移除及加载)</li>
-</ul>
+</code></pre><br />
+* 切换底图(移除及加载)</p>
 <pre><code>const setLayer = (layerUrls, maxZoom) =&gt; {
         for (let i = 0; i &lt; oLayer.length; i++) {
             oMap.removeLayer(oLayer[i]) //将图层在地图上移除
@@ -1293,78 +1270,73 @@ let polygon = L.polygon(
 <p>不同的底图可能图层数不一样，就可能造成浏览器去请求不存在的图层，以及给用户展示出空白区域的不好体验，所以切换图层时候应注意设置最大及最小缩放值。</p>
 </blockquote>
 <h3 id="part-4-demo-4"><a name="user-content-part-4-demo-4" href="#part-4-demo-4" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>PART 4： 要素标绘（点、线、面，符号化/静态动态） <a href="https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo4.html">Demo 4 </a></h3>
-<p><img alt="" src="https://user-gold-cdn.xitu.io/2018/2/25/161cd9e0fe78e6ff?w=1920&amp;h=959&amp;f=jpeg&amp;s=1410718" /><br />
-* 库引用<br />
-<pre><code> &lt;link rel=&quot;stylesheet&quot; href=&quot;./lib/leaflet/leaflet.css&quot;&gt;
- ```
- ```
- &lt;script src=&quot;./lib/leaflet/leaflet.js&quot;&gt;&lt;/script&gt;
- &lt;script src=&quot;./js/urlTemplate.js&quot;&gt;&lt;/script&gt;
-  ```
-* 画一个圆
-</code></pre><br />
-// 画一个circle<br />
-const circle = L.circle([36.52, 120.31], {<br />
-  color: &lsquo;green&rsquo;, //描边色<br />
-  fillColor: &lsquo;#f03&rsquo;,  //填充色<br />
-  fillOpacity: 0.5, //透明度<br />
-  radius: 10000 //半径，单位米<br />
-}).addTo(map);<br />
-// 绑定一个提示标签<br />
-circle.bindTooltip(&lsquo;我是个圆&rsquo;);<br />
-<pre><code>* Maker及自定义Maker
-</code></pre><br />
-// 做一个maker<br />
-const marker = L.marker([36.52, 120.31]).addTo(map);<br />
-// 绑定一个提示标签<br />
-marker.bindTooltip(&lsquo;这是个Marker&rsquo;, { direction: &lsquo;left&rsquo; }).openTooltip();</p>
-<p>//自定义一个maker<br />
-const greenIcon = L.icon({<br />
-  iconUrl: &lsquo;./icon/logo.png&rsquo;,<br />
-  iconSize: [300, 79], // size of the icon<br />
-  popupAnchor: [0, -10] // point from which the popup should open relative to the iconAnchor<br />
-});</p>
-<p>const oMarker = L.marker([36.52, 124.31], { icon: greenIcon }).addTo(map);<br />
-// 绑定一个提示标签<br />
-oMarker.bindTooltip(&lsquo;这是个自定义Marker&rsquo;, { direction: &lsquo;left&rsquo;, offset: [-150, 0] });<br />
-<pre><code>* 画一根线
-</code></pre><br />
-//画一根线<br />
-const polyline = L.polyline([[45.51, -122.68], [37.77, -122.43], [34.04, -118.2]], { color: &lsquo;red&rsquo; }).addTo(map);<br />
-// 飞到这个线的位置<br />
-// map.fitBounds(polyline.getBounds());<br />
-<pre><code>* 画一个多边形
-</code></pre><br />
-// 画一个polygon<br />
-const polygon = L.polygon([<br />
-  [[37, -109.05], [41, -109.03], [41, -102.05], [37, -102.04]], // outer ring<br />
-  [[37.29, -108.58], [40.71, -108.58], [40.71, -102.50], [37.29, -102.50]] // hole<br />
-], {<br />
-    color: &lsquo;green&rsquo;,<br />
-    fillColor: &lsquo;#f03&rsquo;,<br />
-    fillOpacity: 0.5<br />
-  }).addTo(map);<br />
-// 绑定一个提示标签<br />
-polygon.bindTooltip(&lsquo;this is 个多边形&rsquo;);<br />
-// 飞到这个多边形的位置<br />
-// map.fitBounds(polygon.getBounds());<br />
-<pre><code> ### PART 5： 信息窗口（入口、Popup、定制） [Demo 5 ](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo5.html)
-* 库引用 如上  Demo 4
- * 画一个circle并绑定一个Popup
- ```
-// 画一个circle
-const circle = L.circle([36.92, 121.31], {
+<p><img alt="" src="https://user-gold-cdn.xitu.io/2018/2/28/161dcf0290ac287b?w=964&amp;h=480&amp;f=gif&amp;s=3275194" /><br />
+<em> 库引用  如上  Demo 1<br />
+</em> 画一个圆<br />
+<pre><code>// 画一个circle
+const circle = L.circle([36.52, 120.31], {
   color: 'green', //描边色
   fillColor: '#f03',  //填充色
   fillOpacity: 0.5, //透明度
   radius: 10000 //半径，单位米
 }).addTo(map);
-
-// 绑定一个弹窗
-circle.bindPopup('我是个圆');
- ```
- * 定位一个marker，绑定一个自定义Popup
+// 绑定一个提示标签
+circle.bindTooltip('我是个圆');
 </code></pre><br />
+<em> Maker及自定义Maker<br />
+<pre><code>// 做一个maker
+const marker = L.marker([36.52, 120.31]).addTo(map);
+// 绑定一个提示标签
+marker.bindTooltip('这是个Marker', { direction: 'left' }).openTooltip();
+
+
+//自定义一个maker
+const greenIcon = L.icon({
+  iconUrl: './icon/logo.png',
+  iconSize: [300, 79], // size of the icon
+  popupAnchor: [0, -10] // point from which the popup should open relative to the iconAnchor
+});
+
+const oMarker = L.marker([36.52, 124.31], { icon: greenIcon }).addTo(map);
+// 绑定一个提示标签
+oMarker.bindTooltip('这是个自定义Marker', { direction: 'left', offset: [-150, 0] });
+</code></pre><br />
+</em> 画一根线<br />
+<pre><code>//画一根线
+const polyline = L.polyline([[45.51, -122.68], [37.77, -122.43], [34.04, -118.2]], { color: 'red' }).addTo(map);
+// 飞到这个线的位置
+// map.fitBounds(polyline.getBounds());
+</code></pre><br />
+<em> 画一个多边形<br />
+<pre><code>// 画一个polygon
+const polygon = L.polygon([
+  [[37, -109.05], [41, -109.03], [41, -102.05], [37, -102.04]], // outer ring
+  [[37.29, -108.58], [40.71, -108.58], [40.71, -102.50], [37.29, -102.50]] // hole
+], {
+    color: 'green',
+    fillColor: '#f03',
+    fillOpacity: 0.5
+  }).addTo(map);
+// 绑定一个提示标签
+polygon.bindTooltip('this is 个多边形');
+// 飞到这个多边形的位置
+// map.fitBounds(polygon.getBounds());
+</code></pre><br />
+ ### PART 5： 信息窗口（入口、Popup、定制） <a href="https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo5.html">Demo 5 </a><br />
+<img alt="" src="https://user-gold-cdn.xitu.io/2018/2/28/161dd0f8edbe36e5?w=964&amp;h=480&amp;f=gif&amp;s=3360015" /><br />
+</em> 库引用 如上  Demo 1<br />
+ * 画一个circle并绑定一个Popup<br />
+ ```<br />
+// 画一个circle<br />
+const circle = L.circle([36.92, 121.31], {<br />
+  color: &lsquo;green&rsquo;, //描边色<br />
+  fillColor: &lsquo;#f03&rsquo;,  //填充色<br />
+  fillOpacity: 0.5, //透明度<br />
+  radius: 10000 //半径，单位米<br />
+}).addTo(map);</p>
+<p>// 绑定一个弹窗<br />
+circle.bindPopup(&lsquo;我是个圆&rsquo;);<br />
+<code>* 定位一个marker，绑定一个自定义Popup</code><br />
 // 定位一个maker<br />
 const marker = L.marker([36.52, 120.31]).addTo(map);</p>
 <p>//maker上自定义一个popup<br />
@@ -1382,7 +1354,9 @@ const mypop = L.popup();</p>
 });<br />
 <pre><code>
  ### PART 6： geojson 数据绘制边界(坐标转换、渲染) [Demo 6 ](https://github.com/liuvigongzuoshi/WebGIS-for-learnning/blob/master/Leaflet_Demo/demo6.html)
-* 库引用 如上  Demo 3
+
+![](https://user-gold-cdn.xitu.io/2018/3/1/161dd3b18402adcc?w=964&amp;h=480&amp;f=gif&amp;s=5224505)
+* 库引用 如上  Demo   1
 
 * 获得geojson并处理数据
 
@@ -1495,6 +1469,24 @@ const highlight = (e) =&gt; {<br />
 </li>
 <li>
 <p>使用方法很简单可点击上面链接去GitHub看使用说明，或拉<a href="https://github.com/liuvigongzuoshi/WebGIS-for-learnning/tree/master/Leaflet.ChineseTmsProviders_Demo">这个demo</a>下来来瞧一瞧代码。</p>
+</li>
+</ul>
+<h4 id="marker"><a name="user-content-marker" href="#marker" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>优化marker相关的插件</h4>
+<ul>
+<li>
+<p>提供了丰富多彩的图标 <a href="https://github.com/lvoogdt/Leaflet.awesome-markers">Leaflet.awesome-markers</a>, See the <a href="http://jsfiddle.net/VPzu4/92/">demo map</a></p>
+</li>
+<li>
+<p>强大的集聚插件 <a href="https://github.com/Leaflet/Leaflet.markercluster">Leaflet.markercluster</a>, See the <a href="https://leaflet.github.io/Leaflet.markercluster/example/marker-clustering-realworld.388.html">demo map</a></p>
+</li>
+<li>
+<p>优化的label <a href="https://github.com/Leaflet/Leaflet.label">Leaflet.label</a>, See the <a href="http://leaflet.github.io/Leaflet.label/">demo map</a></p>
+</li>
+<li>
+<p>优化重叠在一起的markers <a href="https://github.com/jawj/OverlappingMarkerSpiderfier-Leaflet">OverlappingMarkerSpiderfier-Leaflet</a>, See the <a href="http://jawj.github.io/OverlappingMarkerSpiderfier-Leaflet/demo.html">demo map</a></p>
+</li>
+<li>
+<p>优化在边框上显示不在当前视野中的marker <a href="https://github.com/ubergesundheit/Leaflet.EdgeMarker">Leaflet.EdgeMarker</a>, See the <a href="http://ubergesundheit.github.io/Leaflet.EdgeMarker/">demo map</a></p>
 </li>
 </ul>
 <h4 id="_3"><a name="user-content-_3" href="#_3" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>模块化开发的加载包注意的问题</h4>

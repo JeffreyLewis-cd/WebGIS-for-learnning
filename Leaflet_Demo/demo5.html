@@ -43,7 +43,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="JavaScript:void(0)" onclick="Popup()">popup</a>
+                    <a href="JavaScript:void(0)" onclick="createPopup()">popup</a>
                 </li>
                 <li>
                     <a href="JavaScript:void(0)" onclick="setPopupContent()">setPopupContent</a>
@@ -82,7 +82,7 @@
 
 
     // Popup
-    const Popup = () => {
+    const createPopup = () => {
         // 画一个circle
         const circle = L.circle([36.92, 121.31], {
             color: 'green', //描边色
